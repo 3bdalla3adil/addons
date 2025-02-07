@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_dependants,Access hr_dependants,model_hr_dependants,,1,1,1,1
+access_hr_insurance_qa,Access hr_insurance_qa,model_hr_insurance_qa,,1,1,1,1
+access_insurance_state,Access insurance_state,model_insurance_state,,1,1,1,1

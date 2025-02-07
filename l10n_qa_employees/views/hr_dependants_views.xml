@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="hr_dependants_tree_view" model="ir.ui.view">
+			<field name="name">hr.dependants.tree</field>
+			<field name="model">hr.dependants</field>
+			<field name="arch" type="xml">
+				<tree editable="top">
+					<field name="name"/>
+					<field name="gender"/>
+					<field name="dob"/>
+					<field name="age"/>
+					<field name="sponsor"/>
+					<field name="employee_id" options="{'no_create': True,'no_quick_create': True,'no_open': True, 'no_create_edit': True}"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="action_hr_dependants_tree_view" model="ir.actions.act_window">
+            <field name="name">Dependants</field>
+            <field name="res_model">hr.dependants</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+		<menuitem id="hr_dependants_menu" parent="hr.menu_human_resources_configuration"
+			action="action_hr_dependants_tree_view" sequence="100" />
+	</data>
+</odoo>
