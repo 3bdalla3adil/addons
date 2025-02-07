@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+   <data noupdate="1">
+<!--       <record id="ir_sequence_property_property" model="ir.sequence">-->
+<!--           <field name="name">Serial Numbers</field>-->
+<!--           <field name="code">property.property</field>-->
+<!--           <field name="prefix">AB-0</field>-->
+<!--           <field name="padding">5</field>-->
+<!--           <field name="number_next">1</field>-->
+<!--           <field name="number_increment">1</field>-->
+<!--           <field name="company_id" eval="False"/>-->
+<!--       </record>-->
+
+       <record id="ir_sequence_pdc" model="ir.sequence">
+           <field name="name">PDC Serial Numbers</field>
+           <field name="code">account.pdc</field>
+           <field name="prefix">0</field>
+           <field name="padding">5</field>
+           <field name="number_next">1</field>
+           <field name="number_increment">1</field>
+<!--           <field name="company_id" eval="False"/>-->
+       </record>
+
+       <record id="ir_sequence_claim_request" model="ir.sequence">
+           <field name="name">Claim Serial Numbers</field>
+           <field name="code">claim.request</field>
+           <field name="prefix"></field>
+           <field name="padding">5</field>
+           <field name="number_next">1</field>
+           <field name="number_increment">1</field>
+<!--           <field name="company_id" eval="False"/>-->
+       </record>
+
+
+   </data>
+</odoo>

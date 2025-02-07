@@ -1,0 +1,53 @@
+<odoo>
+    <record id="view_property_owner_form" model="ir.ui.view">
+        <field name="name">property.owner.form</field>
+        <field name="model">property.owner</field>
+        <field name="arch" type="xml">
+            <form string="Owner Details">
+                <sheet>
+                    <group>
+                        <group string="PERSONAL INFO">
+                            <field name="code"/>
+                            <field name="ar_name"/>
+                            <field name="en_name"/>
+                            <field name="email"/>
+                            <field name="sms"/>
+                        </group>
+                        <group string="FINANCIAL INFO">
+                            <field name="payment_serial_no"/>
+                            <field name="deposit_serial_no"/>
+                            <field name="adjustment_serial_no"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_property_owner_tree" model="ir.ui.view">
+        <field name="name">property.owner.tree</field>
+        <field name="model">property.owner</field>
+        <field name="arch" type="xml">
+            <tree string="Owner Details">
+                <field name="code"/>
+                <field name="ar_name"/>
+                <field name="en_name"/>
+                <field name="email"/>
+                <field name="sms"/>
+                <field name="payment_serial_no"/>
+                <field name="deposit_serial_no"/>
+                <field name="adjustment_serial_no"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_owner" model="ir.actions.act_window">
+        <field name="name">Owners</field>
+        <field name="res_model">property.owner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            </p>
+        </field>
+    </record>
+</odoo>

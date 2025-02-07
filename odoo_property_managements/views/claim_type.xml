@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+
+    <record id="view_claim_type_form" model="ir.ui.view">
+        <field name="name">view.claim.type.form</field>
+        <field name="model">claim.type</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_claim_state_form" model="ir.ui.view">
+        <field name="name">view.claim.state.form</field>
+        <field name="model">claim.state</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_claim_state_tree" model="ir.ui.view">
+        <field name="name">view.claim.state.tree</field>
+        <field name="model">claim.state</field>
+        <field name="arch" type="xml">
+            <tree string="">
+<!-- ================================= COMMENTED FOR PRODUCTION =========================================       -->
+<!--                <field name="sequence" widget="handle"/>-->
+                <field name="name"/>
+<!--                <field name="fold"/>-->
+<!--                <field name="done"/>-->
+<!-- =========================================================================================================-->
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="view_claim_type_tree" model="ir.ui.view">
+        <field name="name">view.claim.type.tree</field>
+        <field name="model">claim.type</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="action_claim_type_view" model="ir.actions.act_window">
+        <field name="name">Claim Type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">claim.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            </p>
+        </field>
+    </record>
+
+    <record id="action_claim_state_view" model="ir.actions.act_window">
+        <field name="name">Claim States</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">claim.state</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            </p>
+        </field>
+    </record>
+
+</odoo>

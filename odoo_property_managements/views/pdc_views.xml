@@ -1,0 +1,125 @@
+<odoo>
+
+    <record id="view_account_pdc_form" model="ir.ui.view">
+        <field name="name">account.pdc.form</field>
+        <field name="model">account.move</field>
+        <field name="arch" type="xml">
+            <form>
+                 <header>
+                     <button name="action_deposit"
+                            class="oe_highlight"
+                            type="object"
+                            invisible="pdc_state != 'deposited'"
+                            string="Deposit"/>
+
+                     <button name="action_reject"
+                            class="oe_highlight"
+                            type="object"
+                            invisible="pdc_state != 'rejected'"
+                            string="Reject"/>
+
+                     <button name="action_return"
+                            class="oe_highlight"
+                            type="object"
+                            invisible="pdc_state != 'returned'"
+                            string="Return"/>
+
+                     <button name="action_clear"
+                            class="oe_highlight"
+                            type="object"
+                            invisible="pdc_state != 'cleared'"
+                            string="Clear"/>
+
+                     <button name="action_revert"
+                            class="oe_highlight"
+                            type="object"
+                            invisible="pdc_state not in ['deposited']"
+                            string="Revert"/>
+
+                     <field name="pdc_state" widget="statusbar" options="{'clickable':1}" statusbar_visible="deposited,returned,rejected,cleared"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="pdc_name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="pdc_name" readonly="1" invisible=" 'payment_mode' == 'cash' "/>
+                        </h1>
+                    </div>
+                    <!-- PDC status for invoices / receipts [Cleared, Returned, Deposited, Rejected] -->
+                    <!-- NEED TO CHANGE PAYMENT STATE TO PDC STATE -->
+                        <widget name="web_ribbon" title="Cleared" bg_color="text-bg-success" invisible="pdc_state != 'cleared' "/>
+<!--                    or move_type not in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')-->
+                        <widget name="web_ribbon" title="Rejected" bg_color="text-bg-warning" invisible="pdc_state != 'rejected' "/>
+<!--                    or move_type not in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')-->
+                        <widget name="web_ribbon" title="Deposited" bg_color="text-bg-info" invisible="pdc_state != 'deposited' "/>
+<!--                    or move_type not in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')-->
+                        <widget name="web_ribbon" title="Returned" bg_color="text-bg-danger" invisible="pdc_state != 'returned'"/>
+<!--                        <widget name="web_ribbon" text="Invoicing App Legacy" bg_color="text-bg-info" invisible="pdc_state != 'invoicing_legacy'" tooltip=""/>-->
+                    <group>
+
+                        <group string="Contract INFO">
+                            <field name="unit_id"/>
+                            <field name="partner_id"/>
+                            <field name="company_id"/>
+                            <field name="payment_mode"/>
+
+                        </group>
+                        <group string="FINANCIAL INFO">
+                            <field name="cheque_date"/>
+<!--                            invisible=" 'payment_mode' == 'Cash' "-->
+                            <field name="monthly_rent"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_account_pdc_tree" model="ir.ui.view">
+        <field name="name">account.pdc.tree</field>
+        <field name="model">account.move</field>
+        <field name="arch" type="xml">
+            <tree string="PDC Details">
+                <field name="pdc_name"/>
+                <field name="pdc_state"/>
+                <field name="unit_id"/>
+                <field name="partner_id"/>
+                <field name="cheque_date"/>
+                <field name="monthly_rent"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_pdc" model="ir.actions.act_window">
+        <field name="name">PDC</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            </p>
+        </field>
+    </record>
+
+    <record id="action_posted_pdc" model="ir.actions.act_window">
+        <field name="name">Posted PDCs</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="domain">[('state','=','posted')]</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            </p>
+        </field>
+    </record>
+
+    <record id="action_paid_pdc" model="ir.actions.act_window">
+        <field name="name">Paid PDCs</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="domain">[('payment_state','!=','not_paid')]</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            </p>
+        </field>
+    </record>
+
+</odoo>

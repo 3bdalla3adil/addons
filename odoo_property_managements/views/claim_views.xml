@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_claim_request_form" model="ir.ui.view">
+        <field name="name">view.claim.request.form</field>
+        <field name="model">claim.request</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <header>
+
+<!-- ==============================COMMENTED FOR PRODUCTION=======================================================-->
+<!--                       <button name="action_revert"-->
+<!--                            class="oe_highlight"-->
+<!--                            type="object"-->
+<!--                            invisible="invoiced == 'False'"-->
+<!--                            string="Revert"/>-->
+
+<!--                        <button name="create_invoice"-->
+<!--                                class="oe_highlight"-->
+<!--                                type="object"-->
+<!--                                invisible="invoiced == 'True'"-->
+<!--                                string="Create Invoice"/>-->
+
+                    <field name="state" widget="statusbar"
+                           colors='{"3": "success", "2": "warning", "1": "danger", "0": "info"}'
+                           options="{'clickable':1}" />
+<!--                    <button name="%(account.action_move_line_form)d" type="action" class="oe_stat_button" icon="fa-pencil-square-o">-->
+<!--                        <field string="Invoices" name="invoice_id" widget="statinfo" options="{'no_open': False}"/>-->
+<!--                    </button>-->
+<!--  ==============================================COMMENTED FOR PRODUCTION==============================================-->
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="claim_no" class="oe_edit_only"/>
+                        <h1>
+                            <field name="claim_no" readonly="1"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="CLAIM INFO">
+                            <field name="unit" required="1" readonly="state in ['done']"/>
+                            <field name="description" required="1" readonly="state in ['done']"/>
+                            <field name="claim_type_id" readonly="state in ['done']"/>
+                            <field name="claim_date" readonly="state in ['done']"/>
+                            <field name="priority" colors='{"3": "success", "2": "warning", "1": "danger", "0": "info"}'
+                                   readonly="state in ['done']"/>
+                            <field name="group" readonly="state in ['done']"/>
+                            <field name="checked_by"  readonly="state in ['done']"/>
+<!--                            <field name="claim_ids" string="Related Claims"/>-->
+<!--                            <field name="invoiced" invisible="1"/>-->
+<!--                            <field name="invoice_id" invisible="invoiced != 'True'"/>-->
+
+                        </group>
+
+                        <group string="STAFF INFO">
+                            <field name="assigned_to" readonly="state in ['done']"
+                                   widget="many2many_tags"/>
+                            <field name="remarks_of_works" readonly="state in ['done']"/>
+                            <field name="assign_date" readonly="state in ['done']"/>
+                            <field name="actual_complete" readonly="state in ['done']"/>
+                            <field name="actual_time_done" readonly="state in ['done']"
+                                   widget="float_time"/>
+                            <field name="customer_feedback" readonly="state in ['done']"/>
+                            <field name="work_evaluation" widget="priority" readonly="state in ['done']"/>
+                            <field name="actual_cost" readonly="state in ['done']"/>
+                            <field name="user_id" readonly="1"/>
+                            <field name="remarks" readonly="state in ['done']"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Related Claims">
+                            <field name="claim_ids">
+                                <tree>
+                                    <field name="claim_no" readonly="1" optional="show"/>
+                                    <field name="unit" required="1" optional="show"/>
+                                    <field name="claim_date" optional="show"/>
+                                    <field name="claim_type_id" optional="show"/>
+                                    <field name="priority" optional="show"/>
+                                    <field name="description" required="1" optional="show"/>
+                                    <field name="state" optional="show"/>
+<!--                                    <field name="state_id" optional="show"/>-->
+                                    <field name="group" optional="hide"/>
+                                    <field name="checked_by" optional="hide"/>
+                                    <field name="assigned_to" widget="many2many_tags" optional="show"/>
+                                    <field name="remarks_of_works" optional="hide"/>
+                                    <field name="assign_date" optional="hide"/>
+                                    <field name="actual_complete" optional="hide"/>
+                                    <field name="actual_time_done" optional="hide"/>
+                                    <field name="customer_feedback" optional="hide"/>
+                                    <field name="actual_cost" optional="hide"/>
+                                    <field name="user_id" optional="hide"/>
+                                    <field name="remarks" optional="show"/>
+                                </tree>
+                            </field>
+                        </page>
+<!--======================================COMMENTED FOR PRODUCTION===================================================-->
+<!--                        <page string="Man-hours Consumption">-->
+<!--                            <field name="man_hours_ids">-->
+<!--                                <tree editable="bottom">-->
+<!--                                    <field name="date"/>-->
+<!--                                    <field name="employee_id"/>-->
+<!--                                    <field name="employee_job" readonly="1"/>-->
+<!--                                    <field name="start_time" widget="time"/>-->
+<!--                                    <field name="end_time" widget="time"/>-->
+<!--                                    <field name="total_hours" sum="Total Hours" readonly="1"/>-->
+<!--                                    <field name="hourly_rate"/>-->
+<!--&lt;!&ndash;                                    <field name="transportation_fee" readonly="1"/>&ndash;&gt;-->
+<!--                                </tree>-->
+<!--                            </field>-->
+<!--                        </page>-->
+<!--                        <page string="Material Consumption">-->
+<!--                            <field name="material_ids" readonly="invoiced == 'True'">-->
+<!--                                <tree editable="bottom">-->
+<!--                                    <field name="date"/>-->
+<!--                                    <field name="material_description"/>-->
+<!--                                    <field name="quantity_used"/>-->
+<!--                                    <field name="uom_id"/>-->
+<!--&lt;!&ndash;                                    <field name="transportation_fee" readonly="1"/>&ndash;&gt;-->
+<!--                                    <field name="total_cost" sum="Total Cost" readonly="1"/>-->
+<!--&lt;!&ndash;                                    <field name="transportation_fee" readonly="1"/>&ndash;&gt;-->
+<!--                                    <field name="remark"/>-->
+<!--                                </tree>-->
+<!--                            </field>-->
+<!--                        </page>-->
+<!--                        <page string="Costs and Fees">-->
+<!--                            <group>-->
+<!--                                <field name="total_material_cost" readonly="1"/>-->
+<!--                                <field name="total_man_hours_cost" readonly="1"/>-->
+<!--                                <field name="transportation_fee" readonly="1"/>-->
+<!--                            </group>-->
+<!--                        </page>-->
+<!-- =======================================================================================================================-->
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- <record id="claim_request_search_panel" model="ir.ui.view">
+       <field name="name">claim.request.search.panel</field>
+       <field name="model">claim.request</field>
+       <field name="arch" type="xml">
+           <search position="inside">
+               <searchpanel>
+                   <field name="unit" enable_counters="1" icon="fa fa-filter"/>
+                   <field name="claim_type_id" enable_counters="1" icon="fa-files-o"/>
+                   <field name="priority" enable_counters="1" icon="fa fa-clock-o"/>
+               </searchpanel>
+           </search>
+       </field>
+    </record> -->
+<!-- decoration-info="state=='scheduled'"
+                  decoration-success="state=='done'"
+                  decoration-warning="state=='new'"  -->
+<!--MAIN TREE VIEW-->
+    <record id="view_claim_request_tree" model="ir.ui.view">
+        <field name="name">view.claim.request.tree</field>
+        <field name="model">claim.request</field>
+        <field name="arch" type="xml">
+            <tree string=""
+                  decoration-danger="state=='in_progress'"
+                  editable="top">
+                <field name="claim_no" readonly="1" optional="show"/>
+                <field name="unit" required="1" optional="show"/>
+                <field name="claim_dat" optional="hide"/>
+                <field name="claim_date" optional="show"/>
+                <field name="claim_type_id" optional="show"/>
+                <field name="priority" optional="show"/>
+                <field name="description" required="1" optional="show"/>
+                <field name="state" optional="show"/>
+<!--                <field name="state_id" optional="hide"/>-->
+                <field name="group" optional="hide"/>
+                <field name="checked_by" optional="hide"/>
+                <field name="assigned_to" widget="many2many_tags" optional="show"/>
+                <field name="remarks_of_works" optional="hide"/>
+                <field name="assign_date" optional="hide"/>
+                <field name="actual_complete" optional="hide"/>
+                <field name="actual_time_done" optional="hide"/>
+                <field name="customer_feedback" optional="hide"/>
+                <field name="actual_cost" optional="hide"/>
+                <field name="user_id" optional="hide"/>
+                <field name="remarks" optional="hide"/>
+                <field name="mobile" readonly="0" optional="show"/>
+                <field name="work_evaluation" widget="priority" invisible="user_id.name == 'Bassam'" optional="show"/>
+                <field name="company_id" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+<!--SCHEDULED TREE VIEW -->
+    <record id="view_claim_request_schedule" model="ir.ui.view">
+        <field name="name">view.claim.request.schedule</field>
+        <field name="model">claim.request</field>
+        <field name="arch" type="xml">
+            <tree string="" multi_edit="1"
+                  decoration-danger="state=='in_progress'"
+                  create="0"
+                  editable="top">
+                <field name="claim_no" readonly="1" optional="show"/>
+                <field name="unit" required="1" optional="show"/>
+                <field name="claim_dat" optional="show"/>
+                <field name="claim_date" optional="hide"/>
+                <field name="claim_type_id" optional="show"/>
+                <field name="priority" optional="show"/>
+                <field name="description" required="1" optional="show"/>
+                <field name="state" optional="show"/>
+<!--                <field name="state_id" optional="hide"/>-->
+                <field name="group" optional="hide"/>
+                <field name="checked_by" optional="hide"/>
+                <field name="assigned_to" widget="many2many_tags" optional="show"/>
+                <field name="remarks_of_works" optional="hide"/>
+                <field name="assign_date" optional="hide"/>
+                <field name="actual_complete" optional="hide"/>
+                <field name="actual_time_done" optional="hide"/>
+                <field name="customer_feedback" optional="hide"/>
+                <field name="actual_cost" optional="hide"/>
+                <field name="user_id" optional="hide"/>
+                <field name="remarks" optional="show"/>
+                <field name="company_id" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+    <!--New TREE VIEW -->
+    <record id="view_claim_request_new" model="ir.ui.view">
+        <field name="name">view.claim.request.new</field>
+        <field name="model">claim.request</field>
+        <field name="arch" type="xml">
+            <tree string="" multi_edit="1"
+                  editable="top">
+                <field name="claim_no" readonly="1" optional="show"/>
+                <field name="unit" required="1" optional="show"/>
+                <field name="claim_dat" optional="show"/>
+                <field name="claim_date" optional="hide"/>
+                <field name="claim_type_id" optional="show"/>
+                <field name="priority" optional="show"/>
+                <field name="description" required="1" optional="show"/>
+                <field name="state" optional="show"/>
+<!--                <field name="state_id" optional="hide"/>-->
+                <field name="group" optional="hide"/>
+                <field name="checked_by" optional="hide"/>
+                <field name="assigned_to" widget="many2many_tags" optional="show"/>
+                <field name="remarks_of_works" optional="hide"/>
+                <field name="assign_date" optional="hide"/>
+                <field name="actual_complete" optional="hide"/>
+                <field name="actual_time_done" optional="hide"/>
+                <field name="customer_feedback" optional="hide"/>
+                <field name="actual_cost" optional="hide"/>
+                <field name="user_id" optional="hide"/>
+                <field name="remarks" optional="show"/>
+                <field name="company_id" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+ <!--Completed TREE VIEW -->
+    <record id="view_claim_request_done" model="ir.ui.view">
+        <field name="name">view.claim.request.done</field>
+        <field name="model">claim.request</field>
+        <field name="arch" type="xml">
+            <tree string="" multi_edit="1"
+                  editable="top">
+                <field name="claim_no" readonly="1" optional="show"/>
+                <field name="unit" required="1" optional="show"/>
+                <field name="claim_dat" optional="show"/>
+                <field name="claim_date" optional="hide"/>
+                <field name="claim_type_id" optional="show"/>
+                <field name="priority" optional="show"/>
+                <field name="description" required="1" optional="show"/>
+                <field name="state" optional="show"/>
+<!--                <field name="state_id" optional="hide"/>-->
+                <field name="group" optional="hide"/>
+                <field name="checked_by" optional="hide"/>
+                <field name="assigned_to" widget="many2many_tags" optional="show"/>
+                <field name="remarks_of_works" optional="hide"/>
+                <field name="assign_date" optional="hide"/>
+                <field name="actual_complete" optional="hide"/>
+                <field name="actual_time_done" optional="hide"/>
+                <field name="customer_feedback" optional="hide"/>
+                <field name="actual_cost" optional="hide"/>
+                <field name="user_id" optional="hide"/>
+                <field name="remarks" optional="show"/>
+                <field name="company_id" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+<!--CLAIM REQUEST GRAPH VIEW-->
+    <record id="view_claim_request_graph" model="ir.ui.view">
+        <field name="name">claim.request.graph</field>
+        <field name="model">claim.request</field>
+        <field name="arch" type="xml">
+            <graph string="Claims" sample="1">
+<!-- js_class="project_task_graph"-->
+                <field name="claim_type_id"/>
+                <field name="unit"/>
+<!--                    <field name="claim_date" widget="float_time"/>-->
+<!--                    <field name="group"/>-->
+                <field name="priority"/>
+            </graph>
+        </field>
+    </record>
+
+
+    <!--<record id="hr_equipment_request_view_kanban" model="ir.ui.view">
+        <field name="name">equipment.request.kanban</field>
+        <field name="model">maintenance.request</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="stage_id" sample="1">
+                <field name="stage_id"/>
+                <field name="color"/>
+                <field name="priority"/>
+                <field name="equipment_id"/>
+                <field name="user_id"/>
+                <field name="owner_user_id"/>
+                <field name="category_id"/>
+                <field name="kanban_state"/>
+                <field name="activity_ids" />
+                <field name="activity_state" />
+                <field name="archive" />
+                <progressbar field="kanban_state" colors='{"done": "success", "blocked": "danger"}'/>
+                <templates>
+                    <t t-name="kanban-tooltip">
+                       <ul class="oe_kanban_tooltip">
+                          <li t-if="record.category_id.raw_value"><b>Category:</b> <t t-esc="record.category_id.value"/></li>
+                          <li t-if="record.user_id.raw_value"><b>Request to:</b> <t t-esc="record.user_id.value"/></li>
+                       </ul>
+                    </t>
+                    <t t-name="kanban-menu">
+                        <t t-if="widget.editable"><a role="menuitem" type="edit" class="dropdown-item">Edit...</a></t>
+                        <t t-if="widget.deletable"><a role="menuitem" type="delete" class="dropdown-item">Delete</a></t>
+                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                    </t>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="{{!selection_mode ? 'oe_kanban_color_' + kanban_getcolor(record.color.raw_value) : ''}} oe_kanban_card oe_kanban_global_click oe_semantic_html_override">
+                            <div class="oe_kanban_content" tooltip="kanban-tooltip">
+                                <div class="o_kanban_record_top">
+                                    <b class="o_kanban_record_title"><field name="name"/></b>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <span name="owner_user_id" t-if="record.owner_user_id.raw_value">Requested by: <field name="owner_user_id"/><br/></span>
+                                    <span class="oe_grey" t-if="record.equipment_id.raw_value"><field name="equipment_id"/><span t-if="record.category_id.raw_value"> (<field name="category_id"/>)</span><br/></span>
+                                    <span name="schedule_date" t-if="record.schedule_date.raw_value"><field name="schedule_date"/><br/></span>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <field name="priority" widget="priority"/>
+                                        <div class="o_kanban_inline_block ml4 mr4">
+                                            <field name="activity_ids" widget="kanban_activity" />
+                                        </div>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <div invisible="not archive">
+                                            <span class="badge text-bg-warning float-end">Cancelled</span>
+                                        </div>
+                                        <field name="kanban_state" widget="state_selection"/>
+                                        <field name="user_id" widget="many2one_avatar_user"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>-->
+<!--CLAIM REQUEST KANBAN VIEW -->
+    <record id="view_claim_request_kanban" model="ir.ui.view">
+        <field name="name">view.claim.request.kanban</field>
+        <field name="model">claim.request</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state"
+                    sample="1"
+                    class="o_kanban_small_column o_kanban_project_tasks"
+                    on_create="quick_create"
+                    quick_create_view="project.quick_create_task_form"
+                    examples="project" js_class="project_task_kanban"
+                    default_order="priority desc, state, id desc">
+
+                <field name="claim_no"/>
+                <field name="state"/>
+                <field name="claim_date" widget="remaining_days"/>
+                <field name="claim_type_id"/>
+                <progressbar field="priority" colors='{"3": "success", "2": "warning", "1": "danger", "0": "info"}'/>
+                <templates>
+                    <t t-name="kanban-tooltip">
+                    </t>
+                    <t t-name="kanban-menu">
+                        <t t-if="widget.editable"><a role="menuitem" type="edit" class="dropdown-item">Edit...</a></t>
+                        <t t-if="widget.deletable"><a role="menuitem" type="delete" class="dropdown-item">Delete</a></t>
+                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                    </t>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_content oe_kanban_global_click o_kanban_get_form">
+                            <div>
+                                <strong class="o_kanban_record_title">
+                                    <span>
+                                        <field name="unit"/>
+                                    </span>
+                                </strong>
+                            </div>
+                                <strong>
+                                </strong>
+                            <div>
+                                <span class="o_kanban_record_subtitle">
+                                    <strong>
+                                    <field name="description" decoration-info="1"/>
+                                </strong>
+                                </span>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="o_kanban_record_bottom">
+
+                                <div class="oe_kanban_bottom_left">
+                                    <field name="priority" widget="badge" options="{'color_field': 'color'}"/>
+                                    <div class="o_kanban_inline_block">
+<!--                                            <field name="claim_type_id"/>-->
+                                    </div>
+                                    <div class="o_kanban_inline_block ml4 mr4">
+                                        <field name="activity_ids" widget="kanban_activity" />
+                                    </div>
+                                    <div>
+                                        <field name="assigned_to" />
+                                    </div>
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                    <field name="claim_no"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+<!--<record id="view_claim_request_activity" model="ir.ui.view">
+        <field name="name">view.claim.request.activity</field>
+        <field name="model">claim.request</field>
+        <field name="arch" type="xml">
+            <activity string="Claim Request">
+                <field name="user_id"/>
+                <templates>
+                    <div t-name="activity-box">
+                        <field name="user_id" widget="many2one_avatar_user" domain="[('share', '=', False)]"/>
+                        <div class="flex-grow-1 d-block">
+                            <div class="d-flex justify-content-between">
+                                <field name="claim_no" display="full" class="o_text_block o_text_bold"/>
+                            </div>
+                            <field name="assigned_to" muted="1" display="full" class="o_text_block"/>
+                        </div>
+                    </div>
+                </templates>
+            </activity>
+        </field>
+    </record>-->
+<!--CLAIM REQUEST SEARCH VIEW -->
+    <record id="claim_request_search" model="ir.ui.view">
+       <field name="name">claim.request.search.select</field>
+       <field name="model">claim.request</field>
+       <field name="arch" type="xml">
+           <search>
+               <field name="claim_no" />
+                <field name="unit" />
+                <field name="claim_date" />
+                <field name="claim_type_id" />
+                <field name="priority" />
+                <field name="description" />
+                <field name="state" />
+<!--               <searchpanel>-->
+<!--                   <field name="unit" enable_counters="1" icon="fa fa-filter"/>-->
+<!--                   <field name="claim_type_id" enable_counters="1" icon="fa-files-o"/>-->
+<!--                   <field name="priority" enable_counters="1" icon="fa fa-clock-o"/>-->
+<!--               </searchpanel>-->
+           </search>
+       </field>
+    </record>
+<!--MAIN TREE VIEW ACTION-->
+    <record id="action_claim_request_view" model="ir.actions.act_window">
+        <field name="name">Claim Request</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">claim.request</field>
+<!--        <field name="view_mode">kanban,tree,form,graph</field>-->
+        <field name="view_mode">tree,kanban,form,graph</field>
+<!--        <field name="context">{'group_by': 'state'}</field>-->
+        <field name="context"></field>
+        <field name="search_view_id" ref="claim_request_search"/>
+        <field name="view_id" ref="view_claim_request_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            </p>
+        </field>
+    </record>
+<!--SCHEDULED TREE VIEW ACTION-->
+    <record id="action_claim_request_view_schedule" model="ir.actions.act_window">
+        <field name="name">Scheduled Claim Requests</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">claim.request</field>
+        <field name="view_mode">tree</field>
+        <field name="domain">['|',('state','=','scheduled'),('state','=','in_progress')]</field>
+        <field name="view_id" ref="view_claim_request_schedule"/>
+<!--        <field name="context">{'group_by': 'state'}</field>-->
+        <field name="search_view_id" ref="claim_request_search"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            </p>
+        </field>
+    </record>
+    <!--NEW TREE VIEW ACTION-->
+    <record id="action_claim_request_view_new" model="ir.actions.act_window">
+        <field name="name">NEW Claim Requests</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">claim.request</field>
+        <field name="view_mode">tree</field>
+<!--        <field name="domain">[('state','!=','done')]</field>-->
+        <field name="domain">[]</field>
+        <field name="view_id" ref="view_claim_request_new"/>
+<!--        <field name="context">{"custom_filter":True}</field>-->
+        <field name="search_view_id" ref="claim_request_search"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            </p>
+        </field>
+    </record>
+    <!--Completed TREE VIEW ACTION-->
+    <record id="action_claim_request_view_done" model="ir.actions.act_window">
+        <field name="name">Completed Claim Requests</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">claim.request</field>
+        <field name="view_mode">tree</field>
+        <field name="domain">[('state','=','done')]</field>
+        <field name="view_id" ref="view_claim_request_done"/>
+<!--        <field name="context">{'group':'claim_dat'}</field>-->
+        <field name="search_view_id" ref="claim_request_search"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            </p>
+        </field>
+    </record>
+<!--CLAIM KANBAN VIEW ACTION-->
+    <record id="action_claim_request_kanban_view" model="ir.actions.act_window">
+        <field name="name">Claim Request Schedules</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">claim.request</field>
+        <field name="view_mode">kanban</field>
+        <field name="search_view_id" ref="claim_request_search"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            </p>
+        </field>
+    </record>
+
+
+</odoo>

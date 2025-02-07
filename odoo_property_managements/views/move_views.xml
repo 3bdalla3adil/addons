@@ -1,0 +1,91 @@
+<odoo>
+
+    <record id="view_move_pdc_inherit_form" model="ir.ui.view">
+        <field name="name">account.move.pdc.inherit.form</field>
+        <field name="model">account.move</field>
+        <field name="priority">37</field>
+    <!--        <field name="mode">extension</field>-->
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+        <xpath expr="//field[@name='invoice_vendor_bill_id']" position="before">
+            <field name="unit_id" string="Property Unit"/>
+            <field name="mobile"/>
+            <field name="customer_id"/>
+            <field name="cheque_no"/>
+            <field name="pdc_state"/>
+        </xpath>
+        </field>
+    </record>
+ <!-- JOURNAL TREE ADDED UNIT & CHEQUE NO -->
+    <record id="view_move_entry_inherit_tree" model="ir.ui.view">
+        <field name="name">account.move.entry.inherit.tree</field>
+        <field name="model">account.move</field>
+        <field name="priority">37</field>
+    <!--        <field name="mode">extension</field>-->
+        <field name="inherit_id" ref="account.view_move_tree"/>
+        <field name="arch" type="xml">
+        <xpath expr="//field[@name='name']" position="after">
+            <field name="unit_id" optional="show"/>
+<!--            <field name="mobile"/>-->
+<!--            <field name="customer_id"/>-->
+            <field name="cheque_no" optional="show"/>
+            <field name="pdc_state" optional="show"/>
+        </xpath>
+        </field>
+    </record>
+
+    <!-- PAYMENT FORM ADDED UNIT & CHEQUE NO -->
+    <record id="view_payment_pdc_form" model="ir.ui.view">
+        <field name="name">account.payment.pdc.form</field>
+        <field name="model">account.payment</field>
+        <field name="priority">37</field>
+    <!--        <field name="mode">extension</field>-->
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+        <xpath expr="//field[@name='partner_id']" position="after">
+            <field name="unit_id" />
+    <!--            <field name="mobile"/>-->
+    <!--            <field name="customer_id"/>-->
+            <field name="cheque_no"/>
+            <field name="pdc_state"/>
+        </xpath>
+        </field>
+    </record>
+
+    <!-- PAYMENT TREE ADDED UNIT & CHEQUE NO -->
+    <record id="view_payment_pdc_tree" model="ir.ui.view">
+        <field name="name">account.payment.pdc.tree</field>
+        <field name="model">account.payment</field>
+        <field name="priority">37</field>
+    <!--        <field name="mode">extension</field>-->
+        <field name="inherit_id" ref="account.view_account_payment_tree"/>
+        <field name="arch" type="xml">
+        <xpath expr="//field[@name='journal_id']" position="before">
+            <field name="unit_id" />
+    <!--            <field name="mobile"/>-->
+    <!--            <field name="customer_id"/>-->
+            <field name="cheque_no"/>
+            <field name="pdc_state"/>
+        </xpath>
+        </field>
+    </record>
+
+    <!-- MOVE IN OUT CREDIT TREE ADDED UNIT & CHEQUE NO -->
+    <record id="view_move_pdc_inherit_tree" model="ir.ui.view">
+        <field name="name">account.move.pdc.inherit.tree</field>
+        <field name="model">account.move</field>
+        <field name="priority">37</field>
+    <!--        <field name="mode">extension</field>-->
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_date']" position="before">
+                <field name="unit_id" optional="show"/>
+    <!--            <field name="mobile"/>-->
+    <!--            <field name="customer_id"/>-->
+                <field name="cheque_no" optional="hide"/>
+                <field name="pdc_state" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

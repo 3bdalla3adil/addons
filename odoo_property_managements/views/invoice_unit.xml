@@ -1,0 +1,14 @@
+<odoo>
+    <template id="report_invoice_document_custom" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[hasclass('page')]" position="inside">
+            <div class="custom-section">
+<!--                <h3>Custom Section</h3>-->
+<!--                <p>This is a custom section added to the invoice.</p>-->
+            </div>
+        </xpath>
+    </template>
+
+    <template id="report_payment_receipt_document1_custom" inherit_id="account.report_payment_receipt_document">
+        <xpath expr="//div[@name='payment_method']" position="replace"/>
+    </template>
+</odoo>

@@ -1,0 +1,253 @@
+<odoo>
+    <template id="report_claims_template">
+        <t t-call="web.basic_layout">
+<!--            <div class="page">-->
+            <div class="page" >
+                <div class="text-center">
+                    <t t-set="o" t-value="docs"/>
+                    <t t-set="p" t-value="claims"/>
+                    <style>
+<!--                        .table {-->
+<!--                            width: 100%;-->
+
+<!--                        }-->
+<!--                        .table th, .table td {-->
+<!--                            border: 1px solid #ddd;-->
+<!--                            padding: 8px;-->
+<!--                            white-space: normal !important; /* Override to allow text wrapping */-->
+<!--                            overflow: visible !important; /* Override to ensure text is fully visible */-->
+<!--                            text-overflow: clip !important; /* Override to clip text overflow */-->
+<!--                        }-->
+<!--                        .table th {-->
+<!--                            padding-top: 12px;-->
+<!--                            padding-bottom: 12px;-->
+<!--                            background-color: grey;-->
+<!--                            color: white;-->
+<!--                            font-weight:bold;-->
+<!--                            white-space: normal !important; /* Override to allow text wrapping */-->
+<!--                            overflow: visible !important; /* Override to ensure text is fully visible */-->
+<!--                            text-overflow: clip !important; /* Override to clip text overflow */-->
+<!--                        }-->
+                        .state-new {
+                            background-color: white;
+                        }
+                        .state-scheduled {
+                            background-color: yellow;
+                            font-weight:bold;
+                        }
+                        .state-in_progress {
+                            background-color: orange;
+                            color: blak;
+                            font-weight:bold;
+                        }
+                        .state-done {
+                            background-color: green;
+                            color: white;
+                            font-weight:bold;
+                        }
+                        .table {
+                            border-collapse: collapse;
+                            table-layout: auto; /* Ensures the table adjusts to fit the content */
+                            width: 100%;
+                        } .table th, .table td { border: 1px solid #ddd; white-space: nowrap; /* Prevents text wrapping within the cells */ text-align: left; /* Aligns text to the left */ padding: px; /* Adds some padding for better readability */ }
+                    </style>
+                    <div class="text-center">
+                        <t t-if="p">
+                            <t t-if="p[0].group" >
+                                <h1>
+                                <t t-if="user.name == 'ISMAIL'">
+                                    Weekly (<t t-esc="start_date"/> To <t t-esc="end_date"/> )
+                                </t>
+                                    Group <t t-esc="p[0].group.upper()"/> Claims Report
+                                </h1>
+                            </t>
+                        </t>
+                        <t t-if="not p">
+                            <h1>No Claims Found</h1>
+                        </t>
+                    </div>
+                    <table class="table table-stripped table-sm table-bordered text-center">
+                        <thead>
+                            <tr>
+                                <th><storng>Claim No.</storng></th>
+                                <th><storng>Claim Date</storng></th>
+                                <th><storng>Claim Status</storng></th>
+                                <th><storng>Claim Type</storng></th>
+                                <th><storng>Unit Number</storng></th>
+                                <th><storng>Description</storng></th>
+                                <t t-if="user.name != 'ISMAIL'" >
+                                    <t>
+                                        <th>
+                                            <storng>Workers</storng>
+                                        </th>
+                                    </t>
+                                </t>
+                                <!--  added to Ismail Report as Bassam request  -->
+                                <th><storng>Remarks</storng></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="p" t-as="claim">
+                                <t t-if="user.name == 'ISMAIL' and state !='done'" >
+                                    <tr t-attf-class="#{
+                                        'state-new' if claim.state == 'new' else
+                                        'state-scheduled' if claim.state == 'scheduled' else
+                                        'state-in_progress' if claim.state == 'in_progress' else ''}">
+                                        <td><span t-field="claim.claim_no"/></td>
+    <!--                                    <td><span t-field="claim.claim_date"/></td>-->
+                                        <td><span t-esc="claim.claim_date.strftime('%d-%m-%Y')"/></td>
+                                        <td><span t-field="claim.state"/></td>
+                                        <td><span t-field="claim.claim_type_id"/></td>
+                                        <td><span t-field="claim.unit"/></td>
+<!--                                        <td><span t-field="claim.description"/></td>-->
+                                        <td><span t-esc="claim.description.lower()"/></td>
+    <!--                                    <t t-if="claim.user_id.name != 'ismail'" >-->
+                                        <td><span t-field="claim.remarks"/></td>
+                                    </tr>
+                                </t>
+                                <t t-if="user.name != 'ISMAIL'">
+                                    <tr t-attf-class="#{
+                                        'state-new' if claim.state == 'new' else
+                                        'state-scheduled' if claim.state == 'scheduled' else
+                                        'state-in_progress' if claim.state == 'in_progress' else
+                                        'state-done' if claim.state == 'done' else ''}">
+                                        <td><span t-field="claim.claim_no"/></td>
+    <!--                                    <td><span t-field="claim.claim_date"/></td>-->
+                                        <td><span t-esc="claim.claim_date.strftime('%d-%m-%Y')"/></td>
+                                        <td><span t-field="claim.state"/></td>
+                                        <td><span t-field="claim.claim_type_id"/></td>
+                                        <td><span t-field="claim.unit"/></td>
+<!--                                        <td><span t-field="claim.description"/></td>-->
+                                        <td><span t-esc="claim.description.lower()"/></td>
+    <!--                                    <t t-if="claim.user_id.name != 'ismail'" >-->
+                                        <td><span t-field="claim.assigned_to"/></td>
+                                        <td><span t-field="claim.remarks"/></td>
+                                    </tr>
+                                </t>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="print_claims_template">
+        <t t-call="web.html_container">
+            <div class="page">
+                <div class="text-center">
+                    <t t-set="o" t-value="docs"/>
+                    <style>
+<!--                        .table {-->
+<!--                            width: 100%;-->
+<!--                            border-collapse: collapse;-->
+<!--                            white-space: normal !important; /* Override to allow text wrapping */-->
+<!--                            overflow: visible !important; /* Override to ensure text is fully visible */-->
+<!--                            text-overflow: clip !important; /* Override to clip text overflow */-->
+<!--                        }-->
+<!--                        .table th, .table td {-->
+<!--                            border: 1px solid #ddd;-->
+<!--                            padding: 8px;-->
+
+<!--                        }-->
+<!--                        .table tr:nth-child(even) {-->
+<!--                            background-color: #f9f9f9;-->
+<!--                        }-->
+<!--                        .table tr:nth-child(odd) {-->
+<!--                            background-color: #ffffff;-->
+<!--                        }-->
+<!--                        .table tr:hover {-->
+<!--                            background-color: #ddd;-->
+<!--                        }-->
+                        .table th {
+                            padding-top: 12px;
+                            padding-bottom: 12px;
+<!--                            background-color: #4CAF50;-->
+                            background-color: white;
+                            color: black;
+                        }
+                        .table {
+                            table-layout: auto; /* Ensures the table adjusts to fit the content */
+                            width: 100%;
+                        }
+                        .table th, .table td {
+                            border: 1px solid #ddd;
+                            white-space: nowrap; /* Prevents text wrapping within the cells */
+                            text-align: left; /* Aligns text to the left */
+                            padding: 2px; /* Adds some padding for better readability */
+                        }
+                        .state-new {
+                            background-color: white;
+                        }
+                        .state-scheduled {
+                            background-color: white;
+                            color: black;
+                            font-weight:bold;
+                        }
+<!--                        background-color: orange;-->
+                        .state-in_progress {
+
+<!--                            color: black;-->
+                            color: orange;
+                            font-weight:bold;
+                        }
+                        .state-done {
+                            background-color: green;
+<!--                            color: black;-->
+                            color: white;
+                            font-weight:bold;
+                        }
+                    </style>
+                    <div class="text-center">
+                        <t t-if="o">
+                            <t t-if="o[0].group">
+                                <h1>Group <t t-esc="o[0].group.upper()"/> Claims Report</h1>
+                            </t>
+                        </t>
+                        <t t-if="not o">
+                            <h1>No Claims Found</h1>
+                        </t>
+                    </div>
+<!--                    table-responsive-md-->
+                    <table class="table table-responsive-lg  table-bordered text-left">
+                        <thead>
+                            <tr>
+                                <th>Claim No.</th>
+                                <th>Claim Date</th>
+                                <th>Claim Status</th>
+                                <th>Claim Type</th>
+                                <th>Unit Number</th>
+                                <th>Description</th>
+                                <th>Workers</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+<!--                        else 'state-in_progress' if claim.state == 'in_progress' -->
+                        <tbody class="table-striped">
+                            <t t-foreach="o" t-as="claim">
+                                <tr t-attf-class="#{
+                                    'state-new' if claim.state == 'new' else
+                                    'state-scheduled' if claim.state == 'scheduled' else
+                                    'state-done' if claim.state == 'done' else ''}">
+                                    <td class=""><span t-field="claim.claim_no"/></td>
+                                    <td><span t-esc="claim.claim_dat"/></td>
+                                    <td><span t-field="claim.state"
+                                              t-attf-class="#{
+                                              'state-in_progress' if claim.state == 'in_progress' else ''}" /></td>
+                                    <td><span t-field="claim.claim_type_id"/></td>
+                                    <td><span t-field="claim.unit"/></td>
+<!--                                    <td><span t-field="claim.description"/></td>-->
+<!--                                    <td><span t-field="claim.description"/></td>-->
+                                    <td><span t-esc="claim.description.lower()"/></td>
+                                    <td><span t-field="claim.assigned_to"/></td>
+                                    <td><span t-field="claim.remarks"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <menuitem id="menu_property_root"
+              name="Properties"
+              action="odoo_property_management.action_property"
+              web_icon="odoo_property_management,static/description/icon.png"
+              sequence="1"/>
+
+    <menuitem id="menu_unit"
+              name="Units"
+              parent="menu_property_root"
+              action="odoo_property_management.action_unit"
+              sequence="1"/>
+
+    <menuitem id="menu_contract_root"
+              name="Contracts"
+              action="odoo_property_management.action_partner_contract_inherit"
+              web_icon="odoo_property_management,static/description/icon2.png"
+              sequence="2"/>
+
+
+    <menuitem id="menu_account_pdc_root"
+              name="PDC Cheques"
+              parent="menu_contract_root"
+              action="odoo_property_management.action_pdc"
+              sequence="2"/>
+
+    <menuitem id="menu_posted_pdc_root"
+              name="Posted PDC"
+              parent="menu_contract_root"
+              action="odoo_property_management.action_posted_pdc"
+              sequence="3"/>
+
+    <menuitem id="menu_paid_pdc_root"
+              name="Paid PDC"
+              parent="menu_contract_root"
+              action="odoo_property_management.action_paid_pdc"
+              sequence="4"/>
+
+    <menuitem id="menu_res_bank_view"
+              name="Deposit Banks"
+              parent="menu_contract_root"
+              action="account.action_account_supplier_accounts"
+              sequence="5"/>
+
+    <menuitem id="menu_owner_root"
+              name="Owners"
+              parent="menu_property_root"
+              action="odoo_property_management.action_owner"
+              sequence="2"/>
+
+    <menuitem id="menu_claim_request_root"
+              name="Claim Requests"
+              parent="menu_property_root"
+              action="odoo_property_management.action_claim_request_view"
+              sequence="3"/>
+
+    <menuitem id="menu_claim_request_schedule_root"
+              name="Claim Schedules"
+              parent="menu_property_root"
+              action="odoo_property_management.action_claim_request_view_schedule"
+              sequence="5"/>
+
+    <menuitem id="menu_claim_request_new_root"
+              name="New Claim Requests"
+              parent="menu_property_root"
+              action="odoo_property_management.action_claim_request_view_new"
+              sequence="4"/>
+
+    <menuitem id="menu_claim_request_done_root"
+              name="Completed Claim Requests"
+              parent="menu_property_root"
+              action="odoo_property_management.action_claim_request_view_done"
+              sequence="6"/>
+
+    <menuitem id="menu_claim_reports"
+              name="Claim Reports"
+              parent="menu_property_root"
+              action="odoo_property_management.action_claim_report_wizard"
+              sequence="7"/>
+
+    <menuitem id="menu_config_root"
+              name="Configurations"
+              parent="menu_property_root"
+              sequence="8"/>
+
+    <menuitem id="menu_property_type_view"
+              name="Property Type"
+              parent="menu_config_root"
+              action="odoo_property_management.action_property_type"
+              sequence="1"/>
+
+    <menuitem id="menu_unit_type_view"
+              name="Unit Type"
+              parent="menu_config_root"
+              action="odoo_property_management.action_unit_type"
+              sequence="2"/>
+
+    <menuitem id="menu_claim_type_view"
+              name="Claim Type"
+              parent="menu_config_root"
+              action="odoo_property_management.action_claim_type_view"
+              sequence="3"/>
+
+    <menuitem id="menu_claim_state_view"
+              name="Claim State"
+              parent="menu_config_root"
+              action="odoo_property_management.action_claim_state_view"
+              sequence="4"/>
+
+
+</odoo>

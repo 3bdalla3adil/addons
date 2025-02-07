@@ -1,0 +1,156 @@
+<odoo>
+
+    <record id="view_res_partner_contract_inherit_tree" model="ir.ui.view">
+        <field name="name">res.partner.contract.inherit.tree</field>
+        <field name="model">res.partner</field>
+<!--        <field name="mode">primary</field>-->
+        <field name="mode">extension</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+<!--        <field name="priority" eval="1000"/>-->
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='display_name']" position="after">
+                <field name="unit_id" optional="show"/>
+                <field name="monthly_rent" widget="monetary" optional="show"/>
+                <field name="rent_deposit_account" optional="show"/>
+                <field name="cheque_date" optional="show"/>
+                <field name="date_since" widget="remaining_days" optional="show"/>
+                <field name="date_start" string="Start Date" optional="show"/>
+                <field name="date_end" string="End Date" optional="show"/>
+                <field name="company_id" optional="show"/>
+            </xpath>
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="invoice_ids"/>
+            </xpath>
+        </field>
+    </record>
+
+
+
+    <record id="view_search_custom" model="ir.ui.view">
+        <field name="name">Custom Search View</field>
+        <field name="model">res.partner</field>
+<!--        <field name="priority" eval="17"/>-->
+        <field name="arch" type="xml">
+            <search>
+<!--                <searchpanel>-->
+<!--                   <field name="unit_id" enable_counters="1" icon="fa fa-filter"/>-->
+<!--                   <field name="rent_deposit_account" enable_counters="1" icon="fa fa-university"/>-->
+<!--               </searchpanel>-->
+                 <field name="complete_name"/>
+                 <field name="unit_id"/>
+                 <field name="rent_deposit_account"/>
+                 <field name="monthly_rent"/>
+            </search>
+        </field>
+    </record>
+
+
+
+    <record id="view_res_partner_contract_inherit_form" model="ir.ui.view">
+        <field name="name">res.partner.contract.inherit.form</field>
+        <field name="model">res.partner</field>
+        <field name="mode">extension</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="action_generate_pdc"
+                            class="oe_highlight"
+                            type="object"
+                            string="Generate PDC"/>
+                </header>
+            </xpath>
+            <xpath expr="//field[@name='parent_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='parent_id']" position="before">
+                <group string="UNIT INFO" name='unit_info' class="col-4">
+                      <field name="unit_id"/>
+                      <field name="monthly_rent" widget="monetary"/>
+                      <field name="account_id" />
+                      <field name="rent_deposit_account" />
+              </group>
+
+              <group string="DATE INFO" name="date_info" class="col-4">
+                  <field name="cheque_date" />
+                  <field name="date_since" widget="remaining_days"/>
+                  <field name="date_start" string="Contract Period" widget="daterange" colspan="2" options="{'end_date_field': 'date_end'}"/>
+              </group>
+<!--                <group></group>-->
+
+            </xpath>
+            <xpath expr="//field[@name='vat']" position="after">
+              <field name="invoice_ids" class="col-4"/>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="action_partner_contract_inherit" model="ir.actions.act_window">
+        <field name="name">Contracts</field>
+        <field name="res_model">res.partner</field>
+<!--        <field name="view_mode">tree,form</field>-->
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_search_custom"/>
+        <field name="view_id" ref="view_res_partner_contract_inherit_tree"/>
+    </record>
+
+    <record id="action_partner_contract_inherit1" model="ir.actions.act_window">
+        <field name="name">Contracts</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">form</field>
+        <field name="search_view_id" ref="view_search_custom"/>
+        <field name="view_id" ref="view_res_partner_contract_inherit_form"/>
+    </record>
+
+</odoo>
+
+
+<!--
+<record id="action_hotel_invoice_tree1" model="ir.actions.act_window">
+
+    <field name="name">Hotel Invoices</field>
+
+    <field name="res_model">account.invoice</field>
+
+    <field name="view_type">form</field>
+
+    <field name="view_mode">tree,form</field>
+
+    <field eval="False" name="view_id"/>
+
+    <field name="domain">[('type','in',('out_invoice', 'out_refund')),('is_hotel_invoice','=',True)]</field>
+
+    <field name="context">{'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale'}</field>
+
+    <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+
+</record>
+
+<record id="action_hotel_invoice_tree1_view1" model="ir.actions.act_window.view">
+
+    <field eval="1" name="sequence"/>
+
+    <field name="view_mode">tree</field>
+
+    <field name="view_id" ref="your_new_tree_view_id"/>
+
+    <field name="act_window_id" ref="action_hotel_invoice_tree1"/>
+
+</record>
+
+<record id="action_hotel_invoice_tree1_view2" model="ir.actions.act_window.view">
+
+    <field eval="2" name="sequence"/>
+
+    <field name="view_mode">form</field>
+
+    <field name="view_id" ref="your_new_form_view_id"/>
+
+    <field name="act_window_id" ref="action_hotel_invoice_tree1"/>
+
+</record>
+
+<menuitem  name="Hotel Invoice" id="menu_hotel_invoices"  action="action_hotel_invoice_tree1"   parent="menu_hotel_reservation"/>'
+-->

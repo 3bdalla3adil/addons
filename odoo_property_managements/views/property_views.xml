@@ -1,0 +1,159 @@
+<odoo>
+    <record id="view_property_form" model="ir.ui.view">
+        <field name="name">property.property.form</field>
+        <field name="model">property.property</field>
+        <field name="arch" type="xml">
+            <form string="Property Details">
+                <sheet>
+                    <group>
+                        <group string ="PROPERTY INFO">
+<!--                            <field name="reference"/>-->
+                            <field name="bld_code"/>
+                            <field name="bld_location"/>
+                            <field name="bld_url" widget="url"/>
+<!--                            <field name="bld_type" invisible="1"/>-->
+                            <field name="bld_type_id"/>
+<!--                            <field name="ra_no"/>-->
+                        </group>
+                        <group string="FLAT INFO">
+                            <field name="bld_unit"/>
+<!--                            <field name="is_flat"/>-->
+<!--                            <field name="is_furnitured"/>-->
+<!--                            <field name="bedroom"/>-->
+<!--                            <field name="bathroom"/>-->
+                            <field name="water_no"/>
+                            <field name="water_no1"/>
+                            <field name="kahrma_no"/>
+                            <field name="kahrma_no1"/>
+                        </group>
+<!--                        <group string="FINANCIAL INFO">-->
+<!--                            <field name="idle_rent"/>-->
+<!--                            <field name="is_occupied"/>-->
+<!--                            <field name="date_from"/>-->
+<!--                            <field name="date_to"/>-->
+<!--                        </group>-->
+<!--                        <group string="TENANT INFO">-->
+<!--                            <field name="tenant_id"/>-->
+<!--                            <field name="current_rent"/>-->
+<!--                        </group>-->
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" />
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+
+<!--    <record id="view_property_kanban" model="ir.ui.view">-->
+<!--        <field name="name">property.property.kanban</field>-->
+<!--        <field name="model">property.property</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <kanban class="o_kanban_mobile">-->
+<!--                    -->
+<!--                    <templates>-->
+<!--                        <t t-name="kanban-box">-->
+<!--                            <div t-attf-class="oe_kanban_content oe_kanban_global_click">-->
+<!--                                <div>-->
+<!--                                    <strong class="o_kanban_record_title"><span><field name="name"/></span></strong>-->
+<!--                                </div>-->
+<!--                                <div>-->
+<!--                                    <span class="o_kanban_record_subtitle"><field name="contact_name"/></span>-->
+<!--                                </div>-->
+<!--                                <div>-->
+<!--                                  <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>-->
+<!--                                </div>-->
+<!--                                <div class="o_kanban_record_bottom">-->
+<!--                                    <div class="oe_kanban_bottom_left">-->
+<!--                                        <field name="priority" widget="priority"/>-->
+<!--                                        <div class="o_kanban_inline_block">-->
+<!--                                            <field name="activity_ids" widget="kanban_activity"/>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="oe_kanban_bottom_right">-->
+<!--                                        <field name="user_id" widget="many2one_avatar_user" domain="[('share', '=', False)]"/>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </t>-->
+<!--                    </templates>-->
+<!--                </kanban>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="view_property_tree" model="ir.ui.view">
+        <field name="name">property.property.tree</field>
+        <field name="model">property.property</field>
+        <field name="arch" type="xml">
+            <tree string="Properties">
+<!--                <field name="reference" optional="show"/>-->
+                <field name="bld_code" optional="show"/>
+                <field name="bld_unit" optional="show"/>
+<!--                <field name="ra_no"/>-->
+                <field name="bld_location" optional="show"/>
+<!--                <field name="bld_type" invisible="1"/>-->
+                <field name="bld_type_id" optional="show"/>
+                <field name="bld_url" widget="url" optional="show"/>
+<!--                <field name="is_flat"/>-->
+<!--                <field name="bedroom"/>-->
+                <field name="water_no" optional="show"/>
+                <field name="water_no1" optional="show"/>
+                <field name="kahrma_no" optional="show"/>
+                <field name="kahrma_no1" optional="show"/>
+<!--                <field name="idle_rent"/>-->
+<!--                <field name="is_occupied"/>-->
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_property_type_form" model="ir.ui.view">
+        <field name="name">view.property.type.form</field>
+        <field name="model">property.type</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_property_type_tree" model="ir.ui.view">
+        <field name="name">view.property.type.tree</field>
+        <field name="model">property.type</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action to manage Property -->
+    <record id="action_property" model="ir.actions.act_window">
+        <field name="name">Property</field>
+        <field name="res_model">property.property</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+<!--    <record id="action_property" model="ir.actions.act_window">-->
+<!--        <field name="name">Property</field>-->
+<!--        <field name="res_model">res.partner</field>-->
+<!--        <field name="view_mode">tree,form</field>-->
+<!--        <field name="view_id" ref="view_partner_property_tree"/>-->
+<!--    </record>-->
+
+    <record id="action_property_type" model="ir.actions.act_window">
+        <field name="name">Property Types</field>
+        <field name="res_model">property.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+
+</odoo>

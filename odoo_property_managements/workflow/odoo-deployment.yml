@@ -1,0 +1,40 @@
+name: Odoo Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+#      - name: Install Dependencies
+#        run: |
+#          sudo apt-get update && sudo apt-get install -y python3-pip python3-dev libpq-dev postgresql postgresql-contrib nginx
+#          sudo pip3 install -r requirements.txt
+
+#      - name: Configure Odoo
+#        run: |
+#          sudo cp /path/to/your/odoo.conf /etc/odoo/odoo.conf
+#          sudo service odoo start
+
+#      - name: Configure Nginx
+#        run: |
+#          sudo cp /path/to/your/nginx.conf /etc/nginx/sites-available/odoo
+#          sudo ln -s /etc/nginx/sites-available/odoo /etc/nginx/sites-enabled/odoo
+#          sudo service nginx restart
+
+      - name: Verify Deployment
+        run: |
+          curl -I http://165.22.216.173:8017/
+
