@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="report_appointment_document1" >
+            <t t-call="web.internal_layout">
+                <div class="page">
+                    <h1>Hello from Appointment Report</h1>
+                </div>
+            </t>
+        </template>
+
+<!--        SCHEDULED APPOINTMENT REPORT      -->
+
+        <template id="report_clinic_schedule">
+            <t t-call="web.html_container">
+                <style>
+                    /* Define colors for each appointment state */
+                    .state-draft { background-color: #f0f0f0; }     /* Unconfirmed */
+                    .state-sms_send { background-color: #ffcc00; }  /* SMS Sent */
+                    .state-confirmed { background-color: #c1ffc1; } /* Confirmed */
+                    .state-missed { background-color: #ff6666; }    /* Missed */
+                    .state-checkin { background-color: #99ccff; }   /* Checked In */
+                    .state-ready { background-color: #ffcc99; }     /* In Clinic */
+                    .state-done { background-color: #99ff99; }      /* Completed */
+                    .state-cancel { background-color: #cccccc; }    /* Canceled */
+                    /* Style vacant slots */
+                    .vacant { background-color: #ffffff; }
+                </style>
+
+                <t t-foreach="docs" t-as="doc">
+                    <h3>Clinic Schedule for <t t-esc="doc.get_today()"/></h3>
+
+                    <table class="table table-bordered">
+                        <!-- Header Row -->
+                        <tr>
+                            <th>Time Slot</th>
+                            <t t-foreach="doc.get_clinics()" t-as="clinic">
+                                <th><t t-esc="clinic.name"/></th>
+                            </t>
+                        </tr>
+
+                        <!-- Time Slots Rows -->
+                        <t t-foreach="doc.get_clinic_schedule().items()" t-as="time_slot">
+                            <tr>
+                                <!-- Time Slot Column -->
+                                <td><t t-esc="time_slot[0]"/></td>
+                                <!-- Clinic Columns -->
+                                <t t-foreach="time_slot[1]" t-as="entry">
+                                    <td t-attf-class="{'state-'+entry[1].state if entry[1] else 'vacant'}">
+                                        <t t-if="entry[1]">
+                                            <div>
+                                                <strong><t t-esc="entry[1].patient.name"/></strong>
+                                                <ul>
+                                                    <!-- Loop through each operation in the appointment's services -->
+                                                    <t t-foreach="entry[1].operations" t-as="operation">
+                                                        <li><t t-esc="operation.treatment_no"/></li>
+                                                    </t>
+                                                </ul>
+                                            </div>
+                                        </t>
+                                        <t t-if="not entry[1]">
+                                            <span>Vacant</span>
+                                        </t>
+                                    </td>
+                                </t>
+                            </tr>
+                        </t>
+                    </table>
+                </t>
+            </t>
+        </template>
+
+
+        <template id="report_appointment_document" >
+            <t t-call="web.internal_layout">
+                <div class="page">
+                    <style>
+                        @font-face {
+                        font-family: 'Tajawal-Black';
+                        src: local('Tajawal'), local('Tajawal'),
+                        url(/arabic_taxable_invoice_knk/static/src/fonts/Tajawal-Black.ttf)
+                        format('opentype');
+                        }
+
+                        @font-face {
+                        font-family: 'Tajawal-Light';
+                        src: local('Tajawal'), local('Tajawal'),
+                        url(/arabic_taxable_invoice_knk/static/src/fonts/Tajawal-Light.ttf)
+                        format('opentype');
+                        }
+
+                        @font-face {
+                        font-family: 'Tajawal-Regular';
+                        src: local('Tajawal'), local('Tajawal'),
+                        url(/arabic_taxable_invoice_knk/static/src/fonts/Tajawal-Regular.ttf) format('opentype');
+                        }
+
+                        .regular{
+                        font-family: Tajawal-Regular !important;
+                        }
+
+
+                        .black{
+                        font-family: Tajawal-Black !important;
+                        /*font-weight: bold;*/
+                        }
+
+                        .light{
+                        font-family: Tajawal-Light;
+                        }
+                        .address_block span{
+                        line-height: initial !important;
+                        }
+                        .table-border {
+                        border: 1px solid !important;
+                        }
+                        table{
+                        margin-top: 3px !important;
+                        }
+                        .product_block td{
+                        border-right: 1px solid;
+                        border-left: 1px solid;
+                        border-bottom: 1px solid;
+                        border-top: 0px !important;
+                        padding: 5px 0px 5px 0px !important;
+                        }
+                        .header {
+                        margin-bottom: 3px !important
+                        }
+                    </style>
+                    <div class="oe_structure"/>
+                    <div class="row regular">
+                        <div class="header">
+                            <h3 class="text-center">
+                                <strong>تقرير المواعيد</strong>
+                            </h3>
+                            <h6 class="text-left">
+                                <strong><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M:%S')"/></strong>
+                            </h6>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <div class="row mt32 mb32" id="informations">
+                        <div>
+                            <table class="table table-bordered text-center">
+                                <thead>
+                                    <td style="background-color: #dfdfdf;">
+                                        <strong>اسم المريض</strong>
+                                    </td>
+
+                                    <td style="background-color: #dfdfdf;">
+                                        <strong>الموعد</strong>
+                                    </td>
+
+                                    <td style="background-color: #dfdfdf;">
+                                        <strong>حالة الموعد </strong>
+                                    </td>
+
+                                    <td style="background-color: #dfdfdf;">
+                                        <strong>الخدمة</strong>
+                                    </td>
+
+                                    <td style="background-color: #dfdfdf;">
+                                        <strong>التاريخ</strong>
+                                    </td>
+
+                                    <td style="background-color: #dfdfdf;">
+                                        <strong>الملاحظات</strong>
+                                    </td>
+                                </thead>
+                                <tbody class="sale_tbody">
+
+                                    <t t-foreach="docs" t-as="o">
+
+                                            <tr>
+                                                <td class="text-left">
+                                                    <span t-field="o.patient.partner_id.name"/>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span t-field="o.name"/>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span t-field="o.state"/>
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <t t-foreach="services_ids" t-as="service">
+                                                        <span t-field="service.name"/>|
+
+                                                    </t>
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <span t-esc="o.appointment_sdate.strftime('%Y-%m-%d %H:%M:%S')"/>
+                                                </td>
+
+                                                <td class="text-left">
+                                                    <span t-field="o.comments"/>
+                                                </td>
+                                            </tr>
+                                            <!-- Content to be displayed on all pages -->
+
+<!--                                        </t>-->
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </t>
+        </template>
+<!--        <template id="report_appointment">-->
+        <template id="report_appointments_template">
+            <t t-call="web.html_container">
+                <t t-set="first_page" t-value="True"/>
+
+<!--            <t t-foreach="docs" t-as="o">-->
+                <t t-foreach="appointments" t-as="o">
+
+<!--                <t t-if="first_page">-->
+                        <!-- Content to be displayed only from the second page onwards -->
+<!--                    <t t-set="first_page" t-value="False"/>-->
+<!--                    <t t-call="beauty_clinic_management.report_appointment_document"-->
+                    <!--<t t-call="beauty_clinic_management.report_clinic_schedule"-->
+                    <t t-call="beauty_clinic_management.report_appointment_document1"
+                       t-lang="o.clinic.res_partner_medical_clinic_id.lang"/>
+<!--                    <t t-if="not first_page">-->
+
+<!--                    </t>-->
+<!--                </t>-->
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

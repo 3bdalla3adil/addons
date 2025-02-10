@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<template id="report_prescription_main_document">
+			<t t-call="web.external_layout">
+				<div class="page">
+					<div class="oe_structure"/>
+					<div class="row">
+						<div>
+							<h3 class="text-center mb32">
+								<strong>PRESCRIPTION REPORT</strong>
+							</h3>
+						</div>
+					</div>
+					<br/>
+<!--	PRESCRIPTION REPORT FROM ARABIC TAXABLE INVOICE    -->
+					<style>
+						 @font-face {
+						font-family: 'Tajawal-Regular';
+						src: local('Tajawal'), local('Tajawal'),
+						url(/arabic_taxable_invoice_knk/static/src/fonts/Tajawal-Regular.ttf) format('opentype');
+						}
+						.regular{
+						font-family: Tajawal-Regular;
+						}
+						.black{
+						font-family: Tajawal-Black !important;
+						}
+						.light{
+						font-family: Tajawal-Light;
+						}
+						.address_block span{
+						line-height: initial !important;
+						}
+						.table-border {
+							border: 1px solid !important;
+						}
+						table{
+							margin-bottom: 3px !important;
+						}
+						.product_block td{
+							border-right: 1px solid;
+							border-left: 1px solid;
+
+							border-top: 0px !important;
+						}
+
+						.table tr td{
+								padding: 0.2rem 0.2rem !important;
+						}
+                        .table-border {
+                        border: 1px solid !important;
+                        }
+                        table{
+                        margin-bottom: 3px !important;
+                        }
+                        .product_block td{
+                        border-right: 1px solid;
+
+                        border-top: 0px !important;
+                        }
+
+                        .table tr td{
+                            padding: 0.2rem 0.2rem !important;
+                        }
+                    </style>
+                    <!-- Table 1 -->
+                    <table class="table table-condensed">
+                        <tbody style="font-size: 14px;">
+                            <tr>
+                                <th class="text-center"> MR#</th>
+                                <td colspan="4" class=" text-center ">
+                                    <t t-out="doc.name.patient_id" />
+<!--                                    <t t-out="doc.doctor.name" />-->
+                                </td>
+                                <th class=" text-left ">رقم السجل الطبي</th>
+                            </tr>
+                            <tr>
+                                <th class=" text-center  " width="10%" >
+									Name
+                                </th>
+                                <td class="  text-center " width="20%">
+<!--                                    <span t-field="doc.name" />-->
+                                    <span t-field="doc.name.partner_id.name" />
+                                </td>
+                                <th class=" text-left  " width="12%" >
+									اسم المريض
+                                </th>
+
+                                <th class=" text-center  " width="10%" >
+									<span>Age / Gender</span>
+                                </th>
+
+                                <td class="  text-center " style="font-size: 12px;" width="32%">
+                                    <div>
+                                        <span t-field="doc.name.age" />/<span t-field="doc.name.sex" />
+                                    </div>
+                                </td>
+                                <th class=" text-left  " width="16%" >
+									العمر \ الجنس
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class=" text-center  " >
+                                    Date Time
+                                </th>
+                                <td class="  text-center ">
+                                    <span t-field="doc.prescription_date" />
+                                </td>
+                                <th class=" text-left  " >
+									تاريخ
+                                    الإصدار
+                                </th>
+                                <th class=" text-center  " >
+
+									QID
+                                </th>
+                                <td class="  text-center ">
+                                    <span t-field="doc.name.qid" />
+                                </td>
+                                <th class=" text-left " >
+									رقم الهوية القطرية
+
+                                </th>
+                            </tr>
+
+                        </tbody>
+                    </table>
+					<br/>
+					<div class="row mt32 mb32" id="informations">
+						<div class="col-xs-3">
+<!--							<strong>Prescription ID:</strong>-->
+<!--							<p t-field="doc.name"/>-->
+<!--							<p t-field="doc.prescription_id"/>-->
+						</div>
+						<div class="col-xs-3">
+<!--							<strong>Prescription Date:</strong>-->
+<!--							<p t-field="doc.prescription_date"/>-->
+						</div>
+						<div class="col-xs-3">
+<!--							<strong>Prescribing Clinic:</strong>-->
+<!--							<p t-field="doc.clinic"/>-->
+						</div>
+						<div class="col-xs-3">
+<!--							<strong>Patient Name:</strong>-->
+<!--							<p t-field="doc.name.partner_id"/>-->
+<!--							<p t-field="doc.name.partner_id.email"/>-->
+						</div>
+					</div>
+					<br>
+						<br></br>
+					</br>
+					<div>
+						<table class="table table-condensed" width="100%">
+							<thead>
+<!--								<tr class="black" >-->
+								<tr>
+									<th class="text-center" width="2%">م</th>
+									<th class="text-center" width="28%">الادوية</th>
+									<th class="text-center" width="5%">الجرعه</th>
+									<th class="text-center" width="5%">وحدة الجرعه</th>
+									<th class="text-center" width="10%">نوع الدواء</th>
+									<th class="text-center" width="10%">عدد مرات التناول</th>
+									<th class="text-center" width="5%">مدة التناول</th><!--After Adding Code column-->
+									<th class="text-center" width="10%">مدة التناول</th>
+<!--									<th class="text-center" width="25%">الملاحظات</th>-->
+								</tr>
+								<tr>
+									<th class="text-center" width="2%">Sr</th>
+									<th width="28%">Medicine</th>
+									<th width="5%">Dose</th>
+									<th width="5%" class="text-center">Dose Unit</th>
+									<th width="10%" class="text-center">Form</th>
+									<th width="10%" class="text-center">Frequency</th>
+									<th width="5%"  class="text-right">Duration</th>
+									<th width="10%" class="text-center">Duration Unit</th>
+<!--									<th width="25%" class="text-center">Note</th>-->
+								</tr>
+							</thead>
+							<tbody class="sale_tbody">
+								<t t-set="line_len" t-value="28" />
+								<t t-set="len_l" t-value="0" />
+								<t t-set="inv_l" t-value="0" />
+								<t t-foreach="doc.prescription_line" t-as="line">
+									<t>
+										<t t-set="inv_l" t-value="inv_l+1" />
+									</t>
+									<t t-set="len_l" t-value="len_l+1" />
+									<t t-if="line_len - (len_l % line_len) -1 == 0">
+										<t t-set="td_border_style">
+											border-bottom: 2px black;
+										</t>
+									</t>
+									<t t-else="">
+										<t t-set="td_border_style">
+											border-bottom: 0px !important;
+										</t>
+									</t>
+									<tr>
+										<td class="text-center" width="2%">
+											<div>
+												<span t-out="inv_l" />
+											</div>
+										</td>
+										<td width="28%">
+											<span t-field="line.medicine_id.name"/>
+										</td>
+										<td width="5%" class="text-center">
+											<span t-field="line.dose"/>
+										</td>
+										<td width="5%" class="text-center">
+											<span t-field="line.dose_unit"/>
+										</td>
+										<td width="10%" class="text-center">
+											<span t-field="line.form"/>
+										</td>
+										<td width="10%" class="text-center">
+											<span t-field="line.common_dosage"/>
+										</td>
+										<td width="5%" class="text-center">
+											<span t-field="line.duration"/>
+										</td>
+										<td width="10%" class="text-center">
+											<span t-field="line.duration_period"/>
+										</td>
+<!--										<td width="25%"  class="text-center">-->
+<!--											<span t-field="line.note"/>-->
+<!--										</td>-->
+									</tr>
+								</t>
+							</tbody>
+						</table>
+					</div>
+					<br>
+						<br>
+							<br>
+								<br></br>
+							</br>
+						</br>
+					</br>
+					<div class="row mt32 mb32" id="informations">
+<!--						<div class="col-xs-3">-->
+						<div class="col-3 text-left mb32">
+							<strong>Diet/Exercise/Instructions:</strong>
+							<span t-field="doc.notes"/>
+						</div>
+						<div class="col-3 text-center mb32"/>
+						<div class="col-3 text-right mb32">
+							<strong>Doctor Signature And Stamp:</strong>
+						</div>
+					</div>
+				</div>
+			</t>
+		</template>
+		<template id="report_prescription_main">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="doc">
+					<t t-call="beauty_clinic_management.report_prescription_main_document" t-lang="doc.name.partner_id.lang"/>
+				</t>
+			</t>
+		</template>
+	</data>
+</odoo>
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<odoo>-->
+<!--	<data>-->
+<!--		<template id="report_prescription_main_document">-->
+<!--			<t t-call="web.external_layout">-->
+<!--				<div class="page">-->
+<!--					<div class="oe_structure"/>-->
+<!--					<div class="row">-->
+<!--						<div>-->
+<!--							<h3 class="text-center mb32">-->
+<!--								<strong>PRESCRIPTION REPORT</strong>-->
+<!--							</h3>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--					<br/>-->
+<!--					<br/>-->
+<!--					<div class="row mt32 mb32" id="informations">-->
+<!--						<div class="col-xs-3">-->
+<!--							<strong>Prescription ID:</strong>-->
+<!--							<p t-field="doc.name"/>-->
+<!--						</div>-->
+<!--						<div class="col-xs-3">-->
+<!--							<strong>Prescription Date:</strong>-->
+<!--							<p t-field="doc.prescription_date"/>-->
+<!--						</div>-->
+<!--						<div class="col-xs-3">-->
+<!--							<strong>Prescribing Clinic:</strong>-->
+<!--							<p t-field="doc.clinic"/>-->
+<!--						</div>-->
+<!--						<div class="col-xs-3">-->
+<!--							<strong>Patient Name:</strong>-->
+<!--							<p t-field="doc.name.partner_id"/>-->
+<!--							<p t-field="doc.name.partner_id.email"/>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--					<br>-->
+<!--						<br></br>-->
+<!--					</br>-->
+<!--					<div>-->
+<!--						<table class="table table-condensed" width="100%">-->
+<!--							<thead>-->
+<!--								<tr>-->
+<!--									<th width="20%">Medicine</th>-->
+<!--								<th width="10%">Dose</th>-->
+<!--								<th width="10%" class="text-center">Dose Unit</th>-->
+<!--								<th width="10%" class="text-center">Form</th>-->
+<!--								<th width="20%" class="text-center">Frequency</th>-->
+<!--								<th width="10%"  class="text-right">Duration</th>-->
+<!--								<th width="10%" class="text-center">Duration Unit</th>-->
+<!--								<th width="10%" class="text-center">Note</th>-->
+<!--								</tr>-->
+
+<!--							</thead>-->
+<!--							<tbody class="sale_tbody">-->
+<!--								<t t-foreach="doc.prescription_line" t-as="line">-->
+<!--									<tr>-->
+<!--										<td width="20%">-->
+<!--											<span t-field="line.medicine_id.name"/>-->
+<!--										</td>-->
+<!--										<td width="10%" class="text-center">-->
+<!--											<span t-field="line.dose"/>-->
+<!--										</td>-->
+<!--										<td width="10%" class="text-center">-->
+<!--											<span t-field="line.dose_unit"/>-->
+<!--										</td>-->
+<!--										<td width="10%" class="text-center"> -->
+<!--											<span t-field="line.form"/>-->
+<!--										</td>-->
+<!--										<td width="20%" class="text-center">-->
+<!--											<span t-field="line.common_dosage"/>-->
+<!--										</td>-->
+<!--										<td width="10%" class="text-center">-->
+<!--											<span t-field="line.duration"/>-->
+<!--										</td>-->
+<!--										<td width="10%" class="text-center">-->
+<!--											<span t-field="line.duration_period"/>-->
+<!--										</td>-->
+<!--										<td width="10%"  class="text-center">-->
+<!--											<span t-field="line.note"/>-->
+<!--										</td>-->
+<!--									</tr>-->
+<!--								</t>-->
+<!--							</tbody>-->
+<!--						</table>-->
+<!--					</div>-->
+<!--					<br>-->
+<!--						<br>-->
+<!--							<br>-->
+<!--								<br></br>-->
+<!--							</br>-->
+<!--						</br>-->
+<!--					</br>-->
+<!--					<div class="row mt32 mb32" id="informations">-->
+<!--						<div class="col-xs-3">-->
+<!--							<strong>Notes:</strong>-->
+<!--							<span t-field="doc.notes"/>-->
+<!--						</div>-->
+<!--						<div class="text-right mb32">-->
+<!--							<strong>Clinic Signature:</strong>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</t>-->
+<!--		</template>-->
+<!--		<template id="report_prescription_main">-->
+<!--			<t t-call="web.html_container">-->
+<!--				<t t-foreach="docs" t-as="doc">-->
+<!--					<t t-call="beauty_clinic_management.report_prescription_main_document" t-lang="doc.name.partner_id.lang"/>-->
+<!--				</t>-->
+<!--			</t>-->
+<!--		</template>-->
+<!--	</data>-->
+<!--</odoo>-->

@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_medical_appointment" model="ir.ui.view">
+        <field name="name">medical.appointment.calendar</field>
+        <field name="model">medical.appointment</field>
+        <field name="arch" type="xml">
+<!--            <calendar color="state" date_start="appointment_sdate" date_stop="appointment_edate"-->
+            <calendar color="state_color" date_start="appointment_sdate" date_stop="appointment_edate"
+                      mode="day" string="Appointments">
+<!--                      js_class="model_info" mode="day" string="Appointments">-->
+<!--            js_class="beauty_calendar" mode="day" string="Appointments">-->
+                <field name="patient"/>
+                <field name="doctor"/>
+                <field name="clinic" filters="1"/>
+                <field name="mobile"/>
+                <field name="qid"/>
+                <field name="state" filters="1"/>
+                <field name="services_ids"/>
+                <field invisible="1" name="invoice_amount"/>
+                <field name="invoice_amount_char"/>
+                <field invisible="1" name="invoice_paid"/>
+                <field name="invoice_paid_char"/>
+                <field invisible="1" name="invoice_balance"/>
+                <field name="invoice_balance_char"/>
+                <field invisible="1" name="is_invoice_state"/>
+                <field invisible="1" name="is_register_payment"/>
+                <field name="invoice_state"/>
+<!--                <field name="invoice_state" attrs="{'invisible':[('is_invoice_state','=',False)]}"/>-->
+                <field invisible="1" name="invoice_id"/>
+                <field invisible="1" name="saleorder_id"/>
+            </calendar>
+        </field>
+    </record>
+
+
+
+    <record id="medical_appointment_view" model="ir.ui.view">
+        <field name="name">Appointment</field>
+        <field name="model">medical.appointment</field>
+        <field name="arch" type="xml">
+            <form string="Appointment" version="7.0">
+                <div class="oe_button_box" name="button_box">
+                    <field invisible="1" name="active" options='{"terminology": "archive"}' widget="boolean_button"/>
+                </div>
+
+                <header>
+<!--                    <button invisible="patient_state == 'withapt' or state in  ('sms_send', 'confirmed','missed','checkin','ready','done','cancel')"-->
+                    <button invisible="patient_state == 'withapt' or state in  ('confirmed','missed','checkin','ready','done','cancel')"
+                            name="confirm_appointment" string="Confirm" type="object"/>
+<!--                    <button invisible="patient_state == 'walkin' or state in ('sms_send', 'confirmed','missed','checkin','ready','done','cancel')"-->
+<!--                            name="send_state" string="Send SMS" type="object"/>-->
+                    <button invisible="state != 'draft'" name="confirm" string="Confirm" type="object"/>
+                    <button invisible="state != 'confirmed'" name="missed" string="Missed" type="object"/>
+                    <button invisible="state != 'confirmed'" name="checkin" string="Checked In" type="object"/>
+                    <button invisible="state != 'checkin'" name="ready" string="In Chair" type="object"/>
+                    <button invisible="invoice_done == True or state != 'done' or no_invoice == True" name="create_invoices"
+                            string="Create Invoice" type="object"/>
+<!--                    <button invisible="invoice_done != True or state != 'done' or no_invoice == True" name="register_payment"-->
+<!--                            string="Register Payment" type="object"/>-->
+                    <button invisible="state != 'ready'" name="done" string="Completed" type="object"/>
+                    <button invisible="state in ('draft')" name="reset" string="Reset To Draft" type="object"/>
+                    <button name="cancel_appointment" string="Cancel" type="object"
+                            invisible="state not in ( 'confirmed','missed','checkin','ready','draft')"/>
+<!--                            invisible="state not in ('sms_send', 'confirmed','missed','checkin','ready','draft')"/>-->
+<!--                    <field name="state" statusbar_visible="draft,sms_send,confirmed,checkin,ready,done" widget="statusbar"/>-->
+                    <field name="state" statusbar_visible="draft,checkin,confirmed,ready,done" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field invisible="1" name="complete_name"/>
+                            <field context="{'appointment_id_new':id}" name="patient" options="{'no_open': True}" required="1"/>
+                            <field name="appointment_sdate"/>
+                            <field invisible="1" name="duration_id" options="{'no_open': True}"/>
+                            <field invisible="1" name="patient_state"/>
+                            <field invisible="1" name="ready_time"/>
+                            <field invisible="1" name="urgency"/>
+                            <field invisible="1" name="no_invoice"/>
+                            <field name="saleperson_id"/>
+                            <field invisible="1" name="invoice_state"/>
+                        </group>
+                        <group>
+                            <field invisible="1" name="waiting_time"/>
+                            <field name="doctor" required="1"/>
+                            <field name="appointment_edate"/>
+                            <field name="qid"/>
+                            <field invisible="1" name="payment_due"/>
+                            <field invisible="1" name="checkin_time"/>
+                            <field name="clinic"/>
+                            <field domain="[('is_treatment', '=', True), ('type','=','service')]"
+                                   name="services_ids" required="1" widget="many2many_tags"/>
+                            <field invisible="1" name="user_id"/>
+                            <field invisible="1" name="invoice_done"/>
+                            <field invisible="1" name="id"/>
+                        </group>
+                    </group>
+                    <newline/>
+                    <field colspan="4"
+                           context="{'default_patient_id':patient, 'doctor':doctor, 'default_pid1':id, 'prescription_date':appointment_sdate}"
+                           invisible="1" name="pres_id1"/>
+                    <!--                        <field name="operations" colspan="4" readonly="1" invisible="1"/>-->
+                    <field colspan="4" invisible="1" name="comments"/>
+                    <group invisible="1">
+                        <field name="marker_ids"><tree editable="bottom">
+                                <field name="create_date"/>
+                                <field name="name"/>
+                            </tree></field>
+                        <field name="body_marker_ids"><tree editable="bottom">
+                                <field name="create_date"/>
+                                <field name="name"/>
+                            </tree></field>
+                        <field name="treatment_note"/>
+                        <field name="treatment_body_note"/>
+                    </group>
+                    <group invisible="1">
+                        <field name="face_material_usage_ids" widget="many2many_tags"/>
+                        <field name="body_material_usage_ids" widget="many2many_tags"/>
+                        <field name="face_order_line_ids"><tree editable="bottom">
+                                <field name="product_id"/>
+                                <field name="quantity"/>
+                                <field name="unit_price"/>
+                                <field name="subtotal"/>
+                            </tree></field>
+                        <field name="body_order_line_ids"><tree editable="bottom">
+                                <field name="product_id"/>
+                                <field name="quantity"/>
+                                <field name="unit_price"/>
+                                <field name="subtotal"/>
+                            </tree></field>
+                    </group>
+                    <group invisible="1">
+                        <field name="note_ids"><tree editable="bottom">
+                                <field name="user_id"/>
+                                <field name="create_date" string="Updated Date"/>
+                                <field name="last_notes"/>
+                                <field name="update_notes"/>
+                            </tree></field>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record><!--                  decoration-primary="state=='sms_send'"-->
+    <record id="medical_appointment_tree" model="ir.ui.view">
+        <field name="name">Appointments</field>
+        <field name="model">medical.appointment</field>
+        <field name="arch" type="xml">
+            <tree decoration-bf="state=='ready'"
+                  decoration-danger="state=='cancel'"
+                  decoration-info="state=='draft'"
+                  decoration-it="state=='checkin'"
+                  decoration-success="state=='done'"
+                  decoration-warning="state=='confirmed'"
+                  string="Appointment Information">
+                <field name="name"/>
+                <field name="patient"/>
+                <field invisible="1" name="urgency"/>
+                <field name="appointment_sdate"/>
+                <field name="doctor"/>
+                <field name="clinic"/>
+                <field invisible="1" name="waiting_time"/>
+                <field invisible="1" name="patient_state"/>
+                <field name="state"/>
+            </tree></field>
+    </record>
+    <record id="appointment_search_panel" model="ir.ui.view">
+        <field name="name">appointment.search.panel</field>
+        <field name="model">medical.appointment</field>
+        <field name="arch" type="xml">
+            <search position="inside">
+                <searchpanel>
+                    <field enable_counters="1" icon="fa fa-filter" name="state"/>
+                    <field enable_counters="1" icon="fa-files-o" name="patient_state"/>
+                    <field enable_counters="1" icon="fa fa-clock-o" name="doctor"/>
+                </searchpanel>
+            </search></field>
+    </record>
+    <!--   ACTION     -->
+    <record id="medical_action_form_appointment" model="ir.actions.act_window">
+        <field name="name">Appointments</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.appointment</field>
+        <field name="view_mode">calendar,tree,form</field>
+        <field name="context">{'apt_id':True,'calendar_slot_duration': '00:30:00'}</field>
+        <field name="view_id" ref="medical_appointment_tree"/>
+    </record>
+    <!--   Filters     -->
+    <record id="view_medical_appointment_filter" model="ir.ui.view">
+        <field name="name">medical.appointment.select</field>
+        <field name="model">medical.appointment</field>
+        <field name="arch" type="xml">
+            <search string="Search Appointments">
+                <filter domain="[('user_id','=',uid)]" icon="terp-personal" name="My_appointments" string="My appointments"/>
+                <filter domain="[('state','=','confirmed')]" icon="terp-personal" name="confirmed_appointment" string="Confirmed Appointments"/>
+                <filter domain="[('state','=','cancel')]" icon="terp-personal" name="cancel_appointment" string="Canceled Appointments"/>
+                <filter domain="[('patient_state','=','walkin')]" icon="terp-personal" name="Walk_in" string="Walk-In"/>
+                <filter domain="[('delayed','=',True)]" icon="terp-personal" name="delayed" string="Delayed"/>
+                <newline/>
+                <separator orientation="vertical"/>
+                <field name="mobile"/>
+                <field name="clinic"/>
+                <field name="patient"/>
+                <field name="appointment_sdate"/>
+                <newline/>
+                <group expand="1" string="Group By...">
+                    <filter context="{'group_by':'clinic'}" domain="[]" icon="terp-personal" name="clinic" string="Clinic"/>
+                    <filter context="{'group_by':'doctor'}" domain="[]" icon="terp-personal" name="room" string="Room"/>
+                    <filter context="{'group_by':'saleperson_id'}" domain="[]" icon="terp-personal" name="ctreated_bu" string="Created By"/>
+                    <filter context="{'group_by':'appointment_sdate'}" domain="[]" icon="terp-go-month" name="date" string="Date"/>
+                </group>
+            </search></field>
+    </record>
+    <record id="medical_action_form_today_appointment" model="ir.actions.act_window">
+        <field name="name">Today's Appointment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.appointment</field>
+        <field name="view_mode">calendar,tree,form</field>
+        <field name="context">{'calendar_slot_duration': '00:30:00'}</field>
+        <!--<field name="domain">[('appointment_sdate','&gt;=',time.strftime('%Y-%m-%d 00:00:01')),('appointment_sdate','&lt;=',time.strftime('%Y-%m-%d 23:59:59'))]-->
+        <!--</field>-->
+    </record>
+</odoo>

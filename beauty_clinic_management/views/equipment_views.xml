@@ -1,0 +1,50 @@
+<odoo>
+
+    <record id="view_medical_equipment_form" model="ir.ui.view">
+        <field name="name">medical.equipment.form</field>
+        <field name="model">medical.equipment</field>
+        <field name="arch" type="xml">
+            <form string="Equipment">
+                <group>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="clinic"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_medical_equipment_tree" model="ir.ui.view">
+        <field name="name">medical.equipment.tree</field>
+        <field name="model">medical.equipment</field>
+        <field name="arch" type="xml">
+            <tree string="Equipment">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="clinic"/>
+            </tree>
+        </field>
+    </record>
+
+     <record id="equipment_search_panel" model="ir.ui.view">
+       <field name="name">equipment.search.panel</field>
+       <field name="model">medical.equipment</field>
+       <field name="arch" type="xml">
+           <search position="inside">
+               <searchpanel>
+                   <field name="clinic" enable_counters="1" icon="fa-files-o"/>
+               </searchpanel>
+           </search>
+       </field>
+    </record>
+
+    <record id="medical_equipment_action_tree" model="ir.actions.act_window">
+        <field name="name">Equipments</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.equipment</field>
+        <!--<field name="view_type">form</field>-->
+        <field name="view_id" ref="view_medical_equipment_tree"/>
+        <field name="search_view_id" ref="equipment_search_panel"/>
+    </record>
+
+</odoo>

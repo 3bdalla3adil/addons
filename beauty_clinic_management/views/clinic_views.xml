@@ -1,0 +1,94 @@
+<odoo>
+
+    <record model="ir.ui.view" id="medical_clinic_view">
+            <field name="name">Clinic</field>
+            <field name="model">medical.clinic</field>
+            <field name="arch" type="xml">
+                <form string="Clinics" delete="0">
+                    <sheet>
+
+    <!--                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger"-->
+    <!--                            attrs="{'invisible': [('active', '=', True)]}"/>-->
+
+                        <notebook>
+                            <page string="Main Info">
+                                <group>
+                                    <group>
+                                        <field name="active" widget="boolean_button" string="Active"
+                                               options='{"terminology": "archive"}' invisible="0"/>
+                                        <field name="res_partner_medical_clinic_id" required="1"
+                                               context="{'default_is_clinic': 1, 'search_default_is_clinic': 1}"/>
+
+                                    </group>
+                                    <group>
+                                        <field name="speciality"/>
+                                        <field name="doctor_id"/>
+    <!--                                    <field name="institution"-->
+    <!--                                           context="{'default_is_institution': 1, 'search_default_is_institution': 1}"/>-->
+    <!--                                    <field name="code"/>-->
+                                        <field name="active_code" invisible="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Slots" name="slots">
+                                <field name="slot_ids">
+                                    <tree editable="bottom">
+                                        <field name="weekday"/>
+                                        <field name="start_hour" string="Starting Hour (0:00 - 23:00)" widget="float_time"/>
+                                        <field name="end_hour" string="Ending Hour (0:00 - 23:00)" widget="float_time"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Extra Info">
+                                <field name="info"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="medical_clinic_tree">
+            <field name="name">Clinic List</field>
+            <field name="model">medical.clinic</field>
+            <field name="arch" type="xml">
+                <tree string='Clinic Information' delete="0">
+                    <field name="res_partner_medical_clinic_id"/>
+<!--                    <field name="doctor_id"/>-->
+<!--                    <field name="code"/>-->
+<!--                    <field name="institution"/>-->
+                    <field name="speciality"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="medical_action_form_clinic">
+            <field name="name">Clinics</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">medical.clinic</field>
+            <field name="view_id" ref="medical_clinic_tree"/>
+        </record>
+
+
+
+        <record id="view_medical_clinic_filter" model="ir.ui.view">
+            <field name="name">medical.clinic.select</field>
+            <field name="model">medical.clinic</field>
+            <field name="arch" type="xml">
+                <search string="Search Clinic">
+                    <separator orientation="vertical"/>
+                    <field name="res_partner_medical_clinic_id"/>
+                    <field name="code"/>
+                    <field name="institution"/>
+                    <filter string="Inactive Clinic" name="inactive" domain="[('active','=',False)]"/>
+                    <!-- <newline/> -->
+                    <!-- <filter string="Doctor" icon="terp-personal" domain="[]" context="{'group_by':'doctor_id'}"/> -->
+                    <!-- <filter string="Date" icon="terp-go-month" domain="[]" context="{'group_by':'prescription_date'}"/> -->
+
+                </search>
+            </field>
+        </record>
+
+</odoo>

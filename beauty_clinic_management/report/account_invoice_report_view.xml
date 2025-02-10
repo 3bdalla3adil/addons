@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+<!--     <record id="filter_invoice_isurance_company_1" model="ir.filters"> -->
+<!--         <field name="name">By Insurance Company</field> -->
+<!--         <field name="model_id">account.invoice.report</field> -->
+<!--         <field name="domain">[]</field> -->
+<!--         <field name="user_id" eval="False"/> -->
+<!--         <field name="context">{'group_by': ['date:month', 'insurance_company']}</field> -->
+<!--     </record> -->
+    
+<!--     <record id="filter_invoice_clinic" model="ir.filters"> -->
+<!--         <field name="name">By Clinic</field> -->
+<!--         <field name="model_id">account.invoice.report</field> -->
+<!--         <field name="domain">[]</field> -->
+<!--         <field name="user_id" eval="False"/> -->
+<!--         <field name="context">{'group_by': ['date:month', 'clinic']}</field> -->
+<!--     </record> -->
+
+	<record model="ir.ui.view" id="view_account_invoice_report_search_inherit">
+			<field name="name">account.invoice.report.search.inherit</field>
+			<field name="model">account.invoice.report</field>
+			<field name="inherit_id" ref="account.view_account_invoice_report_search" />
+			<field name="arch" type="xml">
+				 <xpath expr="//field[@name = 'partner_id']" position="after">
+				 	<!-- <filter string="Clinic" name='clinic' context="{'group_by':'clinic'}"/> -->
+				 	<filter string="Clinic" name='clinic' context="{'group_by':'clinic'}"/>
+				 	<filter string="Insurance Company" name='insurance_company' context="{'group_by':'insurance_company'}"/>
+                </xpath>
+			</field>
+		</record>	
+
+</data>
+</odoo>

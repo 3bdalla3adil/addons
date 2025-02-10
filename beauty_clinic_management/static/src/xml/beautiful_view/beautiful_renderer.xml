@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="beauty_clinic_management.Renderer">
+        <t t-esc="props.propsYouWant"/>
+        <t t-foreach="props.records" t-as="record" t-key="record.id">
+            // Show records
+        </t>
+    </t>
+</templates>

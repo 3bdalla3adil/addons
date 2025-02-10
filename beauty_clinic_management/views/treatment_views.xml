@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!-- TREATMENT REPAIR VIEW GYNECOLOGY  -->
+
+    <record id="view_treatment_order_form" model="ir.ui.view">
+        <field name="name">treatment.order.form</field>
+        <field name="model">repair.order</field>
+        <field name="inherit_id" ref="repair.view_repair_order_form"/>
+        <field name="arch" type="xml">
+<!--            <form string="Repair Order">-->
+<!--                <sheet>-->
+            <xpath expr="//form//sheet/group[1]" position="inside">
+                <group > <!--colspan="4" col="4"-->
+<!--                        <field name="treatment_no" readonly="1"/>-->
+                    <field name="treatment_type" invisible="1"/>
+                    <field name="treatment_type_id"/>
+                    <field name="patient_id" required="1"/>
+                    <field name="appt_ids"/>
+                    <field name="appt_id" domain="[('id','in',appt_ids)]"/>
+                    <field name="doctor" col="2"/>
+                    <field name="amount"/>
+                    <field name="services" invisible="1"/>
+                    <field name="service" domain="[('is_treatment', '=', True), ('id', 'in', services)]"/>
+                    <field name="treatment_area"/>
+                    <field name="date"/>
+                    <field name="remarks"/>
+                </group>
+                <group string="TREATMENT LINE">
+                    <field name="treatment_line_ids">
+                        <tree>
+                            <field name="treatment_type"/>
+                            <!-- Scarlet Fields -->
+                            <field name="forehead" invisible="treatment_type != 'SCARLET'"/>
+                            <field name="per_orbital" invisible="treatment_type != 'SCARLET'"  />
+                            <field name="nose_upper" invisible="treatment_type != 'SCARLET'" />
+                            <field name="cheeks" invisible="treatment_type != 'SCARLET'" />
+                            <!-- Procedure Fields -->
+                            <field name="procedure" invisible="treatment_type not in ('PRO1','PRO2')" />
+                            <!-- Laser Fields -->
+                            <field name="length" invisible="treatment_type not in ('LASER','HiFU')" />
+                            <field name="fluence" invisible="treatment_type != 'LASER'" />
+                            <field name="pulse" invisible="treatment_type != 'LASER'" />
+                            <field name="hand_piece" invisible="treatment_type != 'LASER'" />
+                            <!-- HiFU Fields -->
+                            <field name="cartridge" invisible="treatment_type != 'HiFU'" />
+                            <field name="power" invisible="treatment_type != 'HiFU'" />
+                            <field name="pitch" invisible="treatment_type != 'HiFU'" />
+                             <!-- General Fields -->
+                            <field name="treatment_area" />
+                            <field name="state" />
+                            <field name="doctor" />
+                            <field name="date" />
+                            <field name="remarks" />
+                        </tree>
+                    </field>
+                </group>
+            </xpath>
+<!--                </sheet>-->
+<!--            </form>-->
+        </field>
+    </record>
+
+<!--====================================Treatment Order TREE VIEW==========================================-->
+
+    <record id="view_medical_treatment_order_tree" model="ir.ui.view">
+        <field name="name">medical.treatment.order.tree</field>
+        <field name="model">repair.order</field>
+        <field name="arch" type="xml">
+            <tree string="Medical Treatment Order">
+                <field name="patient_id" optional="show"/>
+                <field name="state" invisible="1"/>
+                <field name="doctor" optional="show"/>
+                <field name="amount" invisible="1"/>
+                <field name="appt_id" optional="show"/>
+<!--                <field name="equipment_id" optional="show"/>-->
+                <field name="service" optional="show"/>
+                <field name="treatment_area" optional="show"/>
+                <field name="date" optional="show"/>
+                <field name="remarks" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+<!--=============================================================================================-->
+
+    <!--TREATMENT ACTION-->
+    <record id="action_medical_treatment_order" model="ir.actions.act_window">
+        <field name="name">Medical Treatment Order</field>
+        <field name="res_model">repair.order</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_id" ref="view_medical_treatment_order_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Medical Treatment Order
+            </p>
+        </field>
+    </record>
+
+
+<!--=============================================================================================-->
+
+
+    <record id="view_medical_treatment_form" model="ir.ui.view">
+        <field name="name">medical.treatment.form</field>
+        <field name="model">medical.treatment</field>
+        <field name="arch" type="xml">
+            <form string="Medical Treatment">
+                <sheet>
+                    <group colspan="4" col="4">
+                        <field name="treatment_no" readonly="1"/>
+                        <field name="treatment_type" invisible="1"/>
+                        <field name="treatment_type_id"/>
+                        <field name="patient_id"/>
+                        <field name="appt_ids"/>
+                        <field name="appt_id" domain="[('id','in',appt_ids)]"/>
+                        <field name="doctor" col="2"/>
+                        <field name="amount"/>
+                        <field name="services" invisible="1"/>
+                        <field name="service" domain="[('is_treatment', '=', True), ('id', 'in', services)]"/>
+                        <field name="treatment_area"/>
+                        <field name="date"/>
+                        <field name="remarks"/>
+                    </group>
+
+<!--                    <notebook>-->
+<!--                        <page string="Treatment Lines">-->
+                    <group string="TREATMENT LINE">
+                        <field name="treatment_line_ids">
+                            <tree>
+                                <field name="treatment_type"/>
+                                <!-- Scarlet Fields -->
+                                <field name="forehead" invisible="treatment_type != 'SCARLET'"/>
+                                <field name="per_orbital" invisible="treatment_type != 'SCARLET'"  />
+                                <field name="nose_upper" invisible="treatment_type != 'SCARLET'" />
+                                <field name="cheeks" invisible="treatment_type != 'SCARLET'" />
+                                <!-- Procedure Fields -->
+                                <field name="procedure" invisible="treatment_type not in ('PRO1','PRO2')" />
+                                <!-- Laser Fields -->
+                                <field name="length" invisible="treatment_type not in ('LASER','HiFU')" />
+                                <field name="fluence" invisible="treatment_type != 'LASER'" />
+                                <field name="pulse" invisible="treatment_type != 'LASER'" />
+                                <field name="hand_piece" invisible="treatment_type != 'LASER'" />
+                                <!-- HiFU Fields -->
+                                <field name="cartridge" invisible="treatment_type != 'HiFU'" />
+                                <field name="power" invisible="treatment_type != 'HiFU'" />
+                                <field name="pitch" invisible="treatment_type != 'HiFU'" />
+                                 <!-- General Fields -->
+                                <field name="treatment_area" />
+                                <field name="state" />
+                                <field name="doctor" />
+                                <field name="date" />
+                                <field name="remarks" />
+                            </tree>
+                        </field>
+                    </group>
+<!--                        </page>-->
+<!--                    </notebook>-->
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_medical_treatment_tree" model="ir.ui.view">
+        <field name="name">medical.treatment.tree</field>
+        <field name="model">medical.treatment</field>
+        <field name="arch" type="xml">
+            <tree string="Medical Treatment">
+                <field name="patient_id" optional="show"/>
+                <field name="state" invisible="1"/>
+                <field name="doctor" optional="show"/>
+                <field name="amount" invisible="1"/>
+                <field name="appt_id" optional="show"/>
+<!--                <field name="equipment_id" optional="show"/>-->
+                <field name="service" optional="show"/>
+                <field name="treatment_area" optional="show"/>
+                <field name="date" optional="show"/>
+                <field name="remarks" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="view_medical_treatment_line_form" model="ir.ui.view">
+        <field name="name">medical.treatment.line.form</field>
+        <field name="model">medical.treatment.line</field>
+        <field name="arch" type="xml">
+            <form string="Medical Treatment Line">
+                <sheet>
+                    <group col="4" colspan="4">
+                        <field name="treatment_type"/>
+                        <!-- SCARLET Fields -->
+                        <group string="SCARLET INFO" col="4" colspan="4" invisible="treatment_type != 'SCARLET'">
+                            <field name="forehead"/>
+                            <field name="per_orbital"/>
+                            <field name="nose_upper"/>
+                            <field name="cheeks"/>
+                        </group>
+                        <!-- Procedure Fields -->
+                        <group string="PROCEDURE INFO" col="4" colspan="4" invisible="treatment_type != 'PRO1'">
+                            <field name="procedure"/>
+                        </group>
+                        <!-- LASER Fields -->
+                        <group string="LASER INFO" col="4" colspan="4" invisible="treatment_type != 'LASER'">
+                            <field name="length" string="Wave Length"/>
+                            <field name="fluence"/>
+                            <field name="pulse"/>
+                            <field name="hand_piece"/>
+                        </group>
+                        <!-- HiFU Fields -->
+                        <group string="HiFu INFO" col="4" colspan="4" invisible="treatment_type != 'HiFu'">
+                            <field name="length" string="Length"/>
+                            <field name="cartridge" />
+                            <field name="fluence" string="Shots per Cartidge 1.5mm| 3.0mm |4.5mm"/>
+                            <field name="power" string="Shots per Cartidge 1.5mm| 3.0mm |4.5mm"/>
+                            <field name="pitch"/>
+                        </group>
+                        <!-- General Fields -->
+                        <group string="GENERAL INFO" col="4" colspan="4">
+                            <field name="treatment_area"/>
+<!--                            <field name="state"/>-->
+                            <field name="doctor"/>
+                            <field name="date"/>
+                            <field name="remarks"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+<!--=============================================================================================================-->
+<!--==============================Treatment Type Tree View==========================================================-->
+<!--=============================================================================================================-->
+
+    <record id="view_medical_treatment_type_tree" model="ir.ui.view">
+        <field name="name">medical.treatment.type.tree</field>
+        <field name="model">medical.treatment.type</field>
+        <field name="arch" type="xml">
+            <tree string="Treatment Type">
+                <field name="name" optional="show"/>
+                <field name="description" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+<!--=============================================================================================================-->
+<!--==============================Treatment Tree Action==========================================================-->
+<!--=============================================================================================================-->
+
+    <!--TREATMENT ACTION-->
+    <record id="action_medical_treatment" model="ir.actions.act_window">
+        <field name="name">Medical Treatments</field>
+        <field name="res_model">medical.treatment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_id" ref="view_medical_treatment_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Medical Treatment
+            </p>
+        </field>
+    </record>
+
+<!--=============================================================================================================-->
+
+    <!--TREATMENT ACTION-->
+    <record id="action_medical_treatment_order" model="ir.actions.act_window">
+        <field name="name">Medical Treatment Order</field>
+        <field name="res_model">repair.order</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_id" ref="view_medical_treatment_order_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Medical Treatment Order
+            </p>
+        </field>
+    </record>
+
+<!--=============================================================================================================-->
+<!--==============================Treatment Type Action==========================================================-->
+<!--=============================================================================================================-->
+
+    <!--TREATMENT TYPE ACTION-->
+    <record id="action_medical_treatment_type" model="ir.actions.act_window">
+        <field name="name">Medical Treatment Types</field>
+        <field name="res_model">medical.treatment.type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_id" ref="view_medical_treatment_type_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Medical Treatment Type
+            </p>
+        </field>
+    </record>
+
+</odoo>
+

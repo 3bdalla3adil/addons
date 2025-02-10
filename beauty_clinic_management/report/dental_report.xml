@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+<!--		-->
+<!--		<record id="nas_al_saqr_reimbursement_paperformat" model="report.paperformat">-->
+<!--	        <field name="name">Nas al Saqr Reimbursement</field>-->
+<!--	        <field name="default" eval="True"/>-->
+<!--	        <field name="format">A4</field>-->
+<!--	        <field name="page_height">0</field>-->
+<!--	        <field name="page_width">0</field>-->
+<!--	        <field name="orientation">Portrait</field>-->
+<!--	        <field name="margin_top">30.00</field>-->
+<!--	        <field name="margin_bottom">20</field>-->
+<!--	        <field name="margin_left">0.00</field>-->
+<!--	        <field name="margin_right">0.00</field>-->
+<!--	        <field name="header_line" eval="False"/>-->
+<!--	        <field name="header_spacing">20</field>-->
+<!--	        <field name="dpi">80</field>-->
+<!--    	</record>-->
+<!--		-->
+<!--		<report-->
+<!--		id="report_employee_claim_form123"-->
+<!--		string="Nas al Saqr Reimbursement"-->
+<!--		model="medical.patient"-->
+<!--		report_type="qweb-pdf"-->
+<!--		file="pragtech_clinical_management.report_claim_form"-->
+<!--		name="pragtech_clinical_management.report_claim_form"-->
+<!--		paperformat="pragtech_clinical_management.nas_al_saqr_reimbursement_paperformat"-->
+<!--		/>-->
+<!--		-->
+<!--		<record id="Daman_Reimbursement_paperformat" model="report.paperformat">-->
+<!--	        <field name="name">Daman Reimbursement</field>-->
+<!--	        <field name="default" eval="True"/>-->
+<!--	        <field name="format">A4</field>-->
+<!--	        <field name="page_height">0</field>-->
+<!--	        <field name="page_width">0</field>-->
+<!--	        <field name="orientation">Portrait</field>-->
+<!--	        <field name="margin_top">30.00</field>-->
+<!--	        <field name="margin_bottom">18.00</field>-->
+<!--	        <field name="margin_left">0.00</field>-->
+<!--	        <field name="margin_right">0.00</field>-->
+<!--	        <field name="header_line" eval="False"/>-->
+<!--	        <field name="header_spacing">20</field>-->
+<!--	        <field name="dpi">80</field>-->
+<!--    	</record>-->
+<!--		-->
+<!--		<report-->
+<!--		id="Daman_Reimbursement_form123"-->
+<!--		string="Daman Reimbursement"-->
+<!--		model="medical.patient"-->
+<!--		report_type="qweb-pdf"-->
+<!--		file="pragtech_clinical_management.report_daman_reimbursement"-->
+<!--		name="pragtech_clinical_management.report_daman_reimbursement"-->
+<!--		paperformat="pragtech_clinical_management.Daman_Reimbursement_paperformat"-->
+<!--		/>-->
+<!--		-->
+<!--		<record id="oman_reinburstment_paperformat" model="report.paperformat">-->
+<!--	        <field name="name">Oman Reinburstment</field>-->
+<!--	        <field name="default" eval="True"/>-->
+<!--	        <field name="format">A4</field>-->
+<!--	        <field name="page_height">0</field>-->
+<!--	        <field name="page_width">0</field>-->
+<!--	        <field name="orientation">Portrait</field>-->
+<!--	        <field name="margin_top">5.00</field>-->
+<!--	        <field name="margin_bottom">15.00</field>-->
+<!--	        <field name="margin_left">0.00</field>-->
+<!--	        <field name="margin_right">0.00</field>-->
+<!--	        <field name="header_line" eval="False"/>-->
+<!--	        <field name="header_spacing">20</field>-->
+<!--	        <field name="dpi">80</field>-->
+<!--    	</record>-->
+<!--		-->
+<!--		<report-->
+<!--		id="oman_reinburstment_form123"-->
+<!--		string="Oman Reimbursement"-->
+<!--		model="medical.patient"-->
+<!--		report_type="qweb-pdf"-->
+<!--		file="pragtech_clinical_management.report_oman_reinburstment"-->
+<!--		name="pragtech_clinical_management.report_oman_reinburstment"-->
+<!--		paperformat="pragtech_clinical_management.oman_reinburstment_paperformat"-->
+<!--		/>-->
+<!--		-->
+<!--		-->
+<!--		<record id="nextcare_reimbursement_paperformat" model="report.paperformat">-->
+<!--	        <field name="name">Oman Reinbursement</field>-->
+<!--	        <field name="default" eval="True"/>-->
+<!--	        <field name="format">A4</field>-->
+<!--	        <field name="page_height">0</field>-->
+<!--	        <field name="page_width">0</field>-->
+<!--	        <field name="orientation">Portrait</field>-->
+<!--	        <field name="margin_top">5.00</field>-->
+<!--	        <field name="margin_bottom">5.00</field>-->
+<!--	        <field name="margin_left">0.00</field>-->
+<!--	        <field name="margin_right">0.00</field>-->
+<!--	        <field name="header_line" eval="False"/>-->
+<!--	        <field name="header_spacing">20</field>-->
+<!--	        <field name="dpi">80</field>-->
+<!--    	</record>-->
+<!--		-->
+<!--		<report-->
+<!--		id="nextcare_reimbursement_form123"-->
+<!--		string="Nextcare reimbursement"-->
+<!--		model="medical.patient"-->
+<!--		report_type="qweb-pdf"-->
+<!--		file="pragtech_clinical_management.report_nextcare_reimbursement"-->
+<!--		name="pragtech_clinical_management.report_nextcare_reimbursement"-->
+<!--		paperformat="pragtech_clinical_management.nextcare_reimbursement_paperformat"-->
+<!--		/>-->
+
+
+
+		<record id="patient_by_procedure_qweb" model="ir.actions.report">
+			<field name="name">Patient By Procedure</field>
+			<field name="model">patient.by.procedure.wizard</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">beauty_clinic_management.report_patient_by_procedure</field>
+			<field name="report_file">beauty_clinic_management.report_patient_by_procedure</field>
+			<field name="print_report_name">'Patient By Procedure - '</field>
+			<field name="binding_model_id" ref="beauty_clinic_management.model_patient_by_procedure_wizard"/>
+			<field name="binding_type">report</field>
+		</record>
+
+		<record id="income_by_procedure_qweb" model="ir.actions.report">
+			<field name="name">Income By Procedure</field>
+			<field name="model">income.by.procedure.wizard</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">beauty_clinic_management.report_income_by_procedure</field>
+			<field name="report_file">beauty_clinic_management.report_income_by_procedure</field>
+			<field name="print_report_name">'Income By Procedure - '</field>
+			<field name="binding_model_id" ref="beauty_clinic_management.model_income_by_procedure_wizard"/>
+			<field name="binding_type">report</field>
+		</record>
+
+		<record id="income_by_insurance_company_qweb" model="ir.actions.report">
+			<field name="name">Income By Insurance Company</field>
+			<field name="model">income.by.insurance.company.wizard</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">beauty_clinic_management.income_by_insurance</field>
+			<field name="report_file">beauty_clinic_management.income_by_insurance</field>
+			<field name="print_report_name">'Income By Insurance Company - '</field>
+			<field name="binding_model_id" ref="beauty_clinic_management.model_income_by_insurance_company_wizard"/>
+			<field name="binding_type">report</field>
+		</record>
+
+
+		<record id="claim_report_qweb" model="ir.actions.report">
+			<field name="name">Claim Report</field>
+			<field name="model">dental.claim.wizard</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">beauty_clinic_management.claim_report</field>
+			<field name="report_file">beauty_clinic_management.claim_report</field>
+			<field name="print_report_name">'Claim Report - '</field>
+			<field name="binding_model_id" ref="beauty_clinic_management.model_dental_claim_wizard"/>
+			<field name="binding_type">report</field>
+		</record>
+
+		<!--FROM RECORD PRINT ACTION BUTTON-->
+		<record id="report_appointment_qweb" model="ir.actions.report">
+			<field name="name">Appointments Receipts</field>
+			<field name="model">medical.appointment</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">beauty_clinic_management.report_appointment</field>
+			<field name="report_file">beauty_clinic_management.report_appointment</field>
+			<field name="print_report_name">'Appointments Receipts - '</field>
+			<field name="binding_model_id" ref="beauty_clinic_management.model_medical_appointment"/>
+			<field name="binding_type">report</field>
+		</record>
+
+		<!--     Report Action From Wizard   -->
+		<record id="action_report_appointments" model="ir.actions.report">
+			<field name="name">Appointment Report</field>
+			<field name="model">medical.appointment</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">beauty_clinic_management.report_appointments_template</field>
+			<field name="report_file">beauty_clinic_management.report_appointments_template</field>
+			<field name="print_report_name">'Appointments Report - Today %s' % (object)</field>
+			<field name="binding_model_id" ref="beauty_clinic_management.model_medical_appointment"/>
+			<field name="binding_type">report</field>
+		</record>
+
+		<record id="income_byreport_report12333" model="ir.actions.report">
+			<field name="name">Income By Clinic</field>
+			<field name="model">income.by.clinic.report.wizard</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">beauty_clinic_management.report_income_by_clinic</field>
+			<field name="report_file">beauty_clinic_management.report_income_by_clinic</field>
+			<field name="print_report_name">'Income By Clinic - '</field>
+			<field name="binding_model_id" ref="beauty_clinic_management.model_medical_appointment"/>
+			<field name="binding_type">report</field>
+		</record>
+
+		<record id="patient_byreport_report12333" model="ir.actions.report">
+			<field name="name">Patient By Clinic</field>
+			<field name="model">patient.by.clinic.report.wizard</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">beauty_clinic_management.report_patient_by_clinic</field>
+			<field name="report_file">beauty_clinic_management.report_patient_by_clinic</field>
+			<field name="print_report_name">'Patient By Clinic - '</field>
+			<field name="binding_model_id" ref="beauty_clinic_management.model_medical_appointment"/>
+			<field name="binding_type">report</field>
+		</record>
+
+		<record id="report_prescription123" model="ir.actions.report">
+			<field name="name">Prescription</field>
+			<field name="model">medical.appointment</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">beauty_clinic_management.report_prescription</field>
+			<field name="report_file">beauty_clinic_management.report_prescription</field>
+			<field name="print_report_name">'Prescription - '</field>
+			<field name="binding_model_id" ref="beauty_clinic_management.model_medical_appointment"/>
+			<field name="binding_type">report</field>
+		</record>
+
+
+		<record id="report_prescription_main123" model="ir.actions.report">
+			<field name="name">Prescription</field>
+			<field name="model">medical.prescription.order</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">beauty_clinic_management.report_prescription_main</field>
+			<field name="report_file">beauty_clinic_management.report_prescription_main</field>
+			<field name="print_report_name">'Prescription - Main'</field>
+			<field name="binding_model_id" ref="beauty_clinic_management.model_medical_prescription_order"/>
+			<field name="binding_type">report</field>
+		</record>
+
+
+		<record id="report_financing_agreement" model="ir.actions.report">
+			<field name="name">Patient Financing Agreement</field>
+			<field name="model">financing.agreement</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">beauty_clinic_management.report_patient_financing_agreement</field>
+			<field name="report_file">beauty_clinic_management.report_patient_financing_agreement</field>
+			<field name="print_report_name">'Prescription - Main'</field>
+			<field name="binding_model_id" ref="beauty_clinic_management.model_financing_agreement"/>
+			<field name="binding_type">report</field>
+		</record>
+
+<!--		<record id="paperformat_pos_receipt1" model="report.paperformat">-->
+<!--			<field name="name">POS Receipt</field>-->
+<!--			<field name="default" eval="False"/>-->
+<!--			<field name="format">A8</field>-->
+<!--			<field name="page_height">200</field> Adjust height as needed &ndash;&gt;-->
+<!--			<field name="page_width">80</field>-->
+<!--			<field name="margin_top">5</field>-->
+<!--			<field name="margin_bottom">5</field>-->
+<!--			<field name="margin_left">5</field>-->
+<!--			<field name="margin_right">5</field>-->
+<!--		</record>-->
+
+
+	</data>
+</odoo>

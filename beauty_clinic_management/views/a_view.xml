@@ -1,0 +1,992 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Action for image view -->
+        <record id="action_result_image_view2" model="ir.actions.client">
+            <field name="name">Result Images</field>
+            <field name="res_model">medical.patient</field>
+            <field name="tag">result_images</field>
+        </record>
+        <!--Dental Chart Opening Action -->
+        <record id="action_open_dental_chart" model="ir.actions.client">
+            <field name="name">Dental Chart</field>
+            <field name="tag">dental_chart</field>
+        </record>
+
+        <record id="view_order_form" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name = 'partner_id']" position="after">
+                    <group colspan="4" col="4" >
+                        <field name="clinic"/>
+                        <field name="doctor"/>
+<!--                        <field name="insurance_company"/>-->
+                        <field name="patient_id" readonly="1"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <!--Account Invoice -->
+        <record id="view_move_form" model="ir.ui.view">
+            <field name="name">account.invoice.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name = 'company_currency_id']" position="after">
+                    <group col="4" >
+                        <field name="clinic" />
+                        <field name="doctor"/>
+                        <field name="insurance_company"/>
+                        <field name="patient_id" readonly="1"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- medicaments -->
+        <record id="medical_medicament_view" model="ir.ui.view">
+            <field name="name">Medicament</field>
+            <field name="model">medical.medicament</field>
+            <field name="arch" type="xml">
+                <form string="medicaments">
+                    <sheet>
+                        <notebook>
+                            <page string="Main Info">
+                                <group col="2">
+                                    <group string="MAIN INFO">
+                                        <field context="{'default_is_medicament': 1,'search_default_is_medicament': 1,'search_default_type': 'service','default_type': 'service'}" name="product_medicament_id" required="1"/>
+                                        <field name="category"/>
+                                        <field name="therapeutic_action"/>
+                                        <field name="active_component"/>
+                                    </group>
+                                    <group string="FINANCIAL INFO">
+                                        <field name="price" readonly="1"/>
+                                        <field name="qty_available" readonly="1"/>
+                                        <field name="indications"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Presentation">
+                                <field name="presentation"/>
+                            </page>
+                            <page string="Composition">
+                                <field name="composition"/>
+                            </page>
+                            <page string="Dosage">
+                                <group col="4" colspan="4">
+                                    <field name="dosage"/>
+                                    <field name="overdosage"/>
+                                </group>
+                            </page>
+                            <page string="Pregnancy / Lactancy">
+                                <group col="4" colspan="4">
+                                    <field name="pregnancy_warning"/>
+                                    <field name="pregnancy_category"/>
+                                    <field name="pregnancy"/>
+                                </group>
+                            </page>
+                            <page string="Adverse Reactions">
+                                <field name="adverse_reaction"/>
+                            </page>
+                            <page string="Storage Conditions">
+                                <field name="storage"/>
+                            </page>
+                            <page string="Extra Info">
+                                <field name="notes"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="medical_medicament_tree" model="ir.ui.view">
+            <field name="name">Medicament list</field>
+            <field name="model">medical.medicament</field>
+            <field name="arch" type="xml">
+                <tree string="medicament">
+                    <field name="product_medicament_id"/>
+                    <field name="active_component"/>
+                    <field name="category"/>
+                    <field name="qty_available" readonly="1"/>
+                    <field name="therapeutic_action"/>
+                    <field name="pregnancy_warning"/>
+                    <field name="price"/>
+                </tree></field>
+        </record>
+        <record id="medical_action_tree_medicament" model="ir.actions.act_window">
+            <field name="name">Medicaments</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">medical.medicament</field>
+            <field name="view_id" ref="medical_medicament_tree"/>
+        </record>
+
+        <record id="medical_action_report_medicament" model="ir.actions.act_window">
+            <field name="name">Medicament List</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">medical.medicament</field>
+            <field name="view_id" ref="medical_medicament_tree"/>
+        </record>
+         <record id="view_medical_medicament_filter" model="ir.ui.view">
+            <field name="name">medical.medicament.select</field>
+            <field name="model">medical.medicament</field>
+            <field name="arch" type="xml">
+                <search string="Search Medicament">
+                    <separator orientation="vertical"/>
+                    <field name="product_medicament_id"/>
+                    <field name="active_component"/>
+                    <field name="therapeutic_action"/>
+                    <newline/>
+                </search></field>
+        </record>
+        <!-- Patient Medications -->
+        <record id="medical_patient_medication_view" model="ir.ui.view">
+            <field name="name">Medication</field>
+            <field name="model">medical.patient.medication</field>
+            <field name="arch" type="xml">
+                <form string="Medication">
+                    <group col="4" colspan="4">
+                        <field name="medicament" required="1"/>
+                        <field name="doctor"/>
+                        <field name="is_active"/>
+                        <field name="indication"/>
+                        <field name="start_treatment" required="1"/>
+                        <field name="end_treatment"/>
+                        <field name="course_completed"/>
+                        <field name="discontinued"/>
+                        <field invisible="discontinued == False" name="discontinued_reason" required="discontinued == True"/>
+                    </group>
+                    <group colspan="4" string="Admnistration">
+                        <group col="4" colspan="4">
+                            <field name="form"/>
+                            <field name="route"/>
+                        </group>
+                        <group colspan="2" string="Dosage">
+                            <group col="4" colspan="4">
+                                <field name="dose"/>
+                                <field name="dose_unit"/>
+                                <field name="qty"/>
+                            </group>
+                        </group>
+                        <group colspan="2" string="Treatment Duration">
+                            <group col="4" colspan="4">
+                                <field name="duration"/>
+                                <field name="duration_period"/>
+                            </group>
+                        </group>
+                        <separator string="Common Dosage"/>
+                        <group col="4" colspan="4">
+                            <field name="common_dosage"/>
+                            <field name="admin_times"/>
+                        </group>
+                        <separator string="Specific Dosage"/>
+                        <group col="4" colspan="4">
+                            <field name="frequency"/>
+                            <field name="frequency_unit"/>
+                        </group>
+                    </group>
+                    <newline/>
+                    <separator string="Notes"/>
+                    <newline/>
+                    <field colspan="4" name="notes" nolabel="1"/>
+                </form></field>
+        </record>
+        <record id="medical_patient_medication_tree" model="ir.ui.view">
+            <field name="name">Medication</field>
+            <field name="model">medical.patient.medication</field>
+            <field name="arch" type="xml">
+                <tree decoration-primary="is_active" string="Medication">
+                    <field name="medicament"/>
+                    <field name="indication"/>
+                    <field name="start_treatment"/>
+                    <field name="end_treatment"/>
+                    <field name="course_completed"/>
+                    <field name="discontinued"/>
+                    <field name="is_active"/>
+                </tree></field>
+        </record>
+        <!-- Claim Mananagement -->
+        <record id="claim_mgmt_insurance_form_view" model="ir.ui.view">
+            <field name="name">Claim Management</field>
+            <field name="model">dental.insurance.claim.management</field>
+            <field name="arch" type="xml">
+                <form string="Claim Management">
+                    <group col="4" colspan="4">
+                        <field name="name" required="1"/>
+                        <field name="claim_date" required="1"/>
+                    </group>
+                    <group col="4" colspan="4">
+                        <field name="insurance_company" required="1"/>
+                        <field name="insurance_policy_card"/>
+                    </group>
+                    <group>
+                        <field name="treatment_done"/>
+                    </group>
+                </form></field>
+        </record>
+        <record id="claim_mgmt_insurance_tree_view" model="ir.ui.view">
+            <field name="name">Claim Management</field>
+            <field name="model">dental.insurance.claim.management</field>
+            <field name="arch" type="xml">
+                <tree string="Claim Management">
+                    <field name="name"/>
+                    <field name="claim_date"/>
+                    <field name="insurance_company"/>
+                    <field name="treatment_done"/>
+                </tree></field>
+        </record>
+        <record id="claim_mgmt_insurance_view" model="ir.actions.act_window">
+            <field name="name">Claim Management</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">dental.insurance.claim.management</field>
+        </record>
+        <!-- Insurances plans -->
+        <record id="gnuhealth_insurance_plan_view" model="ir.ui.view">
+            <field name="name">Insurance Plan</field>
+            <field name="model">medical.insurance.plan</field>
+            <field name="arch" type="xml">
+                <form string="Insurance Plans">
+                    <group col="4" colspan="4">
+                        <field context="{'default_is_insurance_plan': 1, 'search_default_is_insurance_plan': 1,
+                        'search_default_type': 'service','default_type': 'service'}" name="product_insurance_plan_id"/>
+                        <field name="code"/>
+                        <newline/></group>
+                       <group col="4" colspan="4">
+                           <field context="{'default_is_insurance_company': 1,
+                         'search_default_is_insurance_company': 1}" name="company_id"/>
+                        <field name="is_default"/>
+                        <newline/>
+                       </group>
+                    <group>
+                        <field colspan="4" name="notes"/>
+                    </group>
+                </form></field>
+        </record>
+        <record id="gnuhealth_insurance_plan_tree" model="ir.ui.view">
+            <field name="name">Insurance Plan</field>
+            <field name="model">medical.insurance.plan</field>
+            <field name="arch" type="xml">
+                <tree string="Insurance Plans">
+                    <field name="product_insurance_plan_id"/>
+                    <field name="is_default"/>
+                </tree></field>
+        </record>
+        <!-- Insurances -->
+        <record id="medical_insurance_view" model="ir.ui.view">
+            <field name="name">Insurance</field>
+            <field name="model">medical.insurance</field>
+            <field name="arch" type="xml">
+                <form string="Insurances"><group>
+                    <group col="2" colspan="2">
+                        <field name="number" required="1"/>
+                        <field context="{'default_is_patient': 1, 'search_default_is_patient': 1,
+                        'search_default_is_person': 1,'default_is_person': 1}"
+                               domain="[('is_patient', '=', True)]" name="res_partner_insurance_id"/>
+                    </group>
+                    <group col="2" colspan="2">
+                        <field name="type"/>
+                        <field context="{'default_is_insurance_company': 1,
+                         'search_default_is_insurance_company': 1}" name="company_id" required="1"/>
+                    </group>
+                    <group col="2" colspan="2">
+                        <field name="plan_id"/>
+                        <field name="category"/>
+                    </group>
+                    <group>
+                        <field name="member_since"/>
+                        <field name="member_exp"/>
+                    </group>
+                    <group>
+                        <field col="2" colspan="2" name="notes"/>
+                    </group>
+                </group>
+                </form></field>
+        </record>
+        <record id="medical_insurance_tree" model="ir.ui.view">
+            <field name="name">Insurance List</field>
+            <field name="model">medical.insurance</field>
+            <field name="arch" type="xml">
+                <tree string="Insurance List">
+                    <field name="number"/>
+                    <field name="res_partner_insurance_id"/>
+                    <field name="type"/>
+                    <field name="company_id"/>
+                    <field name="category"/>
+                    <field name="member_since"/>
+                    <field name="member_exp"/>
+                </tree></field>
+        </record>
+        <record id="medical_action_insurance" model="ir.actions.act_window">
+            <field name="name">Insurances</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">medical.insurance</field>
+            <field name="view_id" ref="medical_insurance_tree"/>
+
+        </record>
+        <record id="view_medical_insurance_filter" model="ir.ui.view">
+            <field name="name">medical.insurance.select</field>
+            <field name="model">medical.insurance</field>
+            <field name="arch" type="xml">
+                <search string="Search Insurances">
+                    <separator orientation="vertical"/>
+                    <field name="number"/>
+                    <field name="res_partner_insurance_id"/>
+                    <field name="company_id"/>
+                    <newline/>
+                </search></field>
+        </record>
+        <record id="action_partner_health_insurance_company" model="ir.actions.act_window">
+            <field name="name">Insurance Company</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="context">{"default_is_insurance_company":1,"search_default_is_insurance_company":1}</field>
+            <field name="domain">[('is_insurance_company','=',1)]</field>
+
+        </record>
+        <!-- Medical Specialities -->
+        <record id="medical_speciality_view" model="ir.ui.view">
+            <field name="name">Medical Specialties</field>
+            <field name="model">medical.speciality</field>
+            <field name="arch" type="xml">
+                <form string="Medical Speciality">
+                    <group col="4" colspan="4">
+                        <field name="name" required="1"/>
+                        <field name="code"/>
+                    </group>
+                </form></field>
+        </record>
+        <record id="medical_speciality_tree" model="ir.ui.view">
+            <field name="name">Medical Speciality list</field>
+            <field name="model">medical.speciality</field>
+            <field name="arch" type="xml">
+                <tree string="Medical Speciality">
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree></field>
+        </record>
+        <record id="medical_action_speciality" model="ir.actions.act_window">
+            <field name="name">Medical Specialties</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">medical.speciality</field>
+            <field name="view_id" ref="medical_speciality_tree"/>
+        </record>
+
+        <!-- Occupation -->
+        <record id="medical_occupation_view" model="ir.ui.view">
+            <field name="name">Patient Occupation</field>
+            <field name="model">medical.occupation</field>
+            <field name="arch" type="xml">
+                <form string="Patient Occupation">
+                    <group col="4" colspan="4">
+                        <field name="name"/>
+                        <field name="code"/>
+                    </group>
+                </form></field>
+        </record>
+        <record id="medical_occupation_tree" model="ir.ui.view">
+            <field name="name">Patient Occupation List</field>
+            <field name="model">medical.occupation</field>
+            <field name="arch" type="xml">
+                <tree string="Occupation">
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree></field>
+        </record>
+        <record id="medical_action_occupation" model="ir.actions.act_window">
+            <field name="name">Occupations</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">medical.occupation</field>
+            <field name="view_id" ref="medical_occupation_tree"/>
+        </record>
+        <record id="view_medical_occupation_search" model="ir.ui.view">
+            <field name="name">medical.occupation.select</field>
+            <field name="model">medical.occupation</field>
+            <field name="arch" type="xml">
+                <search string="Search Occupations">
+                    <separator orientation="vertical"/>
+                    <field name="name" select="1"/>
+                    <field name="code" select="1"/>
+                    <newline/>
+                </search></field>
+        </record>
+        <record id="view_medical_specialty_filter" model="ir.ui.view">
+            <field name="name">medical.speciality.select</field>
+            <field name="model">medical.speciality</field>
+            <field name="arch" type="xml">
+                <search string="Search Medical Specialties">
+                    <separator orientation="vertical"/>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <newline/>
+                </search></field>
+        </record>
+        <!-- Family -->
+        <record id="medical_family_code_view" model="ir.ui.view">
+            <field name="name">Family</field>
+            <field name="model">medical.family_code</field>
+            <field name="arch" type="xml">
+                <form string="Family List">
+                    <group col="2" colspan="2">
+                        <field name="res_partner_family_medical_id"/>
+                    </group>
+                    <separator string="Members"/>
+                    <field context="{'search_default_is_person': 1,'default_is_person': 1}" name="members_ids" nolabel="1" widget="many2many"/>
+                    <newline/>
+                    <separator string="Extra Info"/>
+                    <newline/>
+                    <field name="info" nolabel="1"/>
+                </form></field>
+        </record>
+        <record id="medical_family_code_tree" model="ir.ui.view">
+            <field name="name">Families</field>
+            <field name="model">medical.family_code</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Family Members">
+                    <field name="res_partner_family_medical_id"/>
+                </tree></field>
+        </record>
+        <record id="medical_action_tree_family_code" model="ir.actions.act_window">
+            <field name="name">Families</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">medical.family_code</field>
+            <field name="view_id" ref="medical_family_code_tree"/>
+        </record>
+        <record id="view_medical_family_filter" model="ir.ui.view">
+            <field name="name">Family search</field>
+            <field name="model">medical.family_code</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Families">
+                    <separator orientation="vertical"/>
+                    <field name="res_partner_family_medical_id"/>
+                    <newline/>
+                </search></field>
+        </record>
+
+        <record id="medical_patient_nationality_view" model="ir.ui.view">
+            <field name="name">Nationality</field>
+            <field name="model">patient.nationality</field>
+            <field name="arch" type="xml">
+                <form string="Nationality">
+                    <group colspan="4">
+                        <field name="name"/>
+                        <field name="code"/>
+                    </group>
+                </form></field>
+        </record>
+
+        <!-- Health Centers -->
+        <record id="action_partner_health_center" model="ir.actions.act_window">
+            <field name="name">Beauty Clinic Centers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <!--<field name="view_type">form</field>-->
+            <field name="context">{"default_is_institution":1,"search_default_is_institution":1}</field>
+            <field name="domain">[('is_institution','=',1)]</field>
+        </record>
+        <!-- Hospital Building -->
+        <record id="medical_hospital_building_view" model="ir.ui.view">
+            <field name="name">Dental Clinic Center Building</field>
+            <field name="model">medical.hospital.building</field>
+            <field name="arch" type="xml">
+                <form string="Building">
+                    <group col="4" colspan="4">
+                        <field name="name" required="1"/>
+                        <field context="{'default_is_institution': 1, 'search_default_is_institution': 1}" name="institution"/>
+                    </group>
+                    <group col="4" colspan="4"><field name="code"/>
+                        <newline/>
+                        <field colspan="4" name="extra_info"/>
+                    </group>
+                </form></field>
+        </record>
+        <record id="medical_hospital_building_tree" model="ir.ui.view">
+            <field name="name">Dental Clinic Center Building Info</field>
+            <field name="model">medical.hospital.building</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Health Center Building Info">
+                    <field name="name"/>
+                    <field name="institution"/>
+                </tree></field>
+        </record>
+        <record id="medical_action_form_hospital_building" model="ir.actions.act_window">
+            <field name="name">Dental Clinic Center Buildings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">medical.hospital.building</field>
+            <!--<field name="view_type">form</field>-->
+            <field name="view_id" ref="medical_hospital_building_tree"/>
+        </record>
+
+        <record id="view_medical_health_center_building_search" model="ir.ui.view">
+            <field name="name">medical.hospital.building.select</field>
+            <field name="model">medical.hospital.building</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Dental Clinic Center Buildings">
+                    <separator orientation="vertical"/>
+                    <field name="name"/>
+                    <field name="institution"/>
+                    <newline/>
+                </search></field>
+        </record>
+ <!-- Hospital Unit -->
+        <record id="medical_hospital_unit_view" model="ir.ui.view">
+            <field name="name">Dental Clinic Center Unit</field>
+            <field name="model">medical.hospital.unit</field>
+            <field name="arch" type="xml">
+                <form string="Dental Clinic Center Building">
+                    <group col="4" colspan="4">
+                        <field name="name" required="1"/>
+                        <field context="{'default_is_institution': 1, 'search_default_is_institution': 1}" name="institution"/>
+                    </group>
+                    <group col="4" colspan="4">
+                        <field name="code"/>
+                        <newline/>
+                        <field colspan="4" name="extra_info"/>
+                    </group>
+                </form></field>
+        </record>
+        <record id="medical_hospital_unit_tree" model="ir.ui.view">
+            <field name="name">Dental Clinic Center Unit Info</field>
+            <field name="model">medical.hospital.unit</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Health Center Unit Info">
+                    <field name="name"/>
+                    <field name="institution"/>
+<!--                    <field name="building"/>-->
+<!--                    <field name="unit"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <record id="medical_action_form_hospital_unit" model="ir.actions.act_window">
+            <field name="name">Dental Clinic Center Units</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">medical.hospital.unit</field>
+            <!--<field name="view_type">form</field>-->
+            <field name="view_id" ref="medical_hospital_unit_tree"/>
+        </record>
+
+        <record id="view_medical_health_center_unit_search" model="ir.ui.view">
+            <field name="name">medical.hospital.unit.select</field>
+            <field name="model">medical.hospital.unit</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Dental Clinic Center Units">
+                    <separator orientation="vertical"/>
+                    <field name="name"/>
+                    <field name="institution"/>
+                    <newline/>
+                </search></field>
+        </record>
+
+        <!-- PARTNER -->
+        <record id="view_partner_form3" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="ref" position="replace">
+
+                </field>
+            </field>
+        </record>
+
+        <record id="view_partner_form1" model="ir.ui.view">
+            <field name="name">res.partner.form1</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <notebook >
+                    <page string="Medical">
+                        <group col="6" colspan="6">
+                            <field name="is_patient"/>
+                            <field name="is_doctor"/>
+                            <field name="is_clinic"/>
+                            <field name="is_institution"/>
+                            <field name="is_person"/>
+                            <field name="is_insurance_company"/>
+                            <field name="is_pharmacy"/>
+                            <field name="ref" placeholder="ID Number"/>
+                        </group>
+                        <newline/>
+                        <field colspan="4" name="insurance_ids" string="Insurance"/>
+                    </page>
+                    <page string="Treatment">
+<!--                        <field name="treatment_ids" string="Treatments"/>-->
+                        <field domain="[('is_treatment','=',True)]" name="treatment_id" string="Treatment"/>
+                    </page>
+                </notebook>
+                <field name="user_id" position="replace" >
+                    <field name="user_id" string="Internal User"/>
+                    <!-- attrs="{ 'required':[('is_doctor', '=', True)]}" -->
+                </field>
+            </field>
+        </record>
+
+        <record id="view_partner_form2" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="middle_name" placeholder="Middle Name......" />
+                    <field name="lastname" placeholder="Last Name......" />
+                </field>
+            </field>
+        </record>
+
+        <!-- PRODUCT -->
+        <record id="view_product_form1" model="ir.ui.view">
+            <field name="name">product.normal.form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <field name="categ_id" position="after">
+                    <field name="duration_id" />
+                    <field name="clinic_ids" widget="many2many_tags" />
+                    <field name="clinic" invisible="1"/>
+                </field>
+                <field name="type" position="before">
+                    <field name="action_perform" string="Action Perform" /></field>
+                <notebook >
+                    <page string="Medical">
+                        <group col="4">
+<!--                            <field name="treatment_id" />-->
+                        </group>
+                        <group col="4">
+                            <field name="is_medicament"/>
+                            <field name="is_insurance_plan"/>
+                            <field name="is_treatment"/>
+                            <field name="is_planned_visit"/>
+                            <field invisible="is_planned_visit == False" name="duration"/>
+                        </group>
+                        <group>
+                            <field domain="[('is_insurance_company','=',True)]" name="insurance_company_id"/>
+                        </group>
+                    </page>
+                </notebook></field>
+        </record>
+
+        <record id="product_treatment_action" model="ir.actions.act_window">
+            <field name="name">Services</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.product</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <!--<field name="view_type">form</field>-->
+            <field name="context">{"search_default_is_treatment":1,"default_is_treatment":1}</field>
+            <field name="domain">[('is_treatment', '=', 1),('company_id','!=',1)]</field>
+            <field name="view_id" ref="product.product_product_tree_view"/>
+            <field name="search_view_id" ref="product.product_search_form_view"/>
+        </record>
+
+        <!-- DURATION -->
+        <record id="appoinment_duration_list_view" model="ir.ui.view">
+            <field name="name">duration.duration.view.tree</field>
+            <field name="model">duration.duration</field>
+            <field name="arch" type="xml">
+                <tree string="Duration">
+                    <field name="duration_name" type="char" class="text-right"/>
+                    <field name="name" type="char" class="text-left"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="appoinment_duration_form_view">
+            <field name="name">Duration</field>
+            <field name="model">duration.duration</field>
+            <field name="arch" type="xml">
+                <form string='Durations'>
+                    <sheet>
+                        <group>
+                             <field name="name" class="col-4" string="Duration"/>
+                            <field name="duration_name" class="col-4" required="True" string="Minutes"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="appoinment_duration_action" model="ir.actions.act_window">
+            <field name="name">Duration</field>
+<!--            <field name="type">ir.actions.act_window</field>-->
+            <field name="res_model">duration.duration</field>
+            <field name="view_id" ref="appoinment_duration_list_view"/>
+        </record>
+
+        <!-- medicine form -->
+        <record id="medical_medicine_prag_form" model="ir.ui.view">
+            <field name="name">Medicament</field>
+            <field name="model">medical.medicine.prag</field>
+            <field name="arch" type="xml">
+                <form string="Medicament">
+                    <group col="4" colspan="4">
+                        <field domain="[('is_medicament', '=', True)]" name="name"/>
+                        <field name="price"/>
+                        <field name="qty_available"/>
+                    </group>
+                </form></field>
+        </record>
+
+        <record id="medical_medicine_prag_tree" model="ir.ui.view">
+            <field name="name">Medicament</field>
+            <field name="model">medical.medicine.prag</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Medicament">
+                    <field name="name"/>
+                    <field name="price"/>
+                    <field name="qty_available"/>
+                </tree></field>
+        </record>
+
+        <record id="view_medical_medicine_prag_search" model="ir.ui.view">
+            <field name="name">medical.drug.route.select</field>
+            <field name="model">medical.medicine.prag</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Medicament">
+                    <separator orientation="vertical"/>
+                    <field name="name" select="1"/>
+                    <field name="price" select="1"/>
+                    <newline/>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_medical_medicine_prag_action" model="ir.actions.act_window">
+            <field name="name">Medicament</field>
+<!--            <field name="type">ir.actions.act_window</field>-->
+            <field name="res_model">medical.medicine.prag</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="medical_medicine_prag_tree"/>
+        </record>
+<!-- medication common dosage -->
+        <record id="medical_medication_dosage_form" model="ir.ui.view">
+            <field name="name">Medication Dosage</field>
+            <field name="model">medical.medication.dosage</field>
+            <field name="arch" type="xml">
+                <form string="Medication Dosage">
+                    <group col="4" colspan="4">
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="abbreviation"/>
+                    </group>
+                </form></field>
+        </record>
+        <record id="medical_medication_dosage_tree" model="ir.ui.view">
+            <field name="name">Medication Dosage</field>
+            <field name="model">medical.medication.dosage</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Medication Dosage">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="abbreviation"/>
+                </tree></field>
+        </record>
+        <record id="view_medical_medication_dosage_search" model="ir.ui.view">
+            <field name="name">medical.medication.dosage.select</field>
+            <field name="model">medical.medication.dosage</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Medication Common Dosages">
+                    <separator orientation="vertical"/>
+                    <field name="name" select="1"/>
+                    <field name="code" select="1"/>
+                    <field name="abbreviation" select="1"/>
+                    <newline/>
+                </search></field>
+        </record>
+        <record id="view_medical_medication_dosage_action" model="ir.actions.act_window">
+            <field name="name">Medication Dosage Frequency</field>
+<!--            <field name="type">ir.actions.act_window</field>-->
+            <field name="res_model">medical.medication.dosage</field>
+            <!--<field name="view_type">form</field>-->
+            <field name="view_id" ref="medical_medication_dosage_tree"/>
+        </record>
+
+        <!-- Medicament administration route -->
+        <record id="medical_drug_route" model="ir.ui.view">
+            <field name="name">Medicament Administration Route</field>
+            <field name="model">medical.drug.route</field>
+            <field name="arch" type="xml">
+                <form string="Medicament Administration Routes">
+                    <group col="4" colspan="4">
+                        <field name="name"/>
+                        <field name="code"/>
+                    </group>
+                </form></field>
+        </record>
+
+        <record id="medical_drug_route_tree" model="ir.ui.view">
+            <field name="name">Medicament Administration Route list</field>
+            <field name="model">medical.drug.route</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Medicament Administration Routes">
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree></field>
+        </record>
+
+        <record id="view_medical_drug_route_search" model="ir.ui.view">
+            <field name="name">medical.drug.route.select</field>
+            <field name="model">medical.drug.route</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Drug Administration Route">
+                    <separator orientation="vertical"/>
+                    <field name="name" select="1"/>
+                    <field name="code" select="1"/>
+                    <newline/>
+                </search></field>
+        </record>
+
+        <record id="view_medical_drug_route_action" model="ir.actions.act_window">
+            <field name="name">Medicament Administration Routes</field>
+<!--            <field name="type">ir.actions.act_window</field>-->
+            <field name="res_model">medical.drug.route</field>
+            <!--<field name="view_type">form</field>-->
+            <field name="view_id" ref="medical_drug_route_tree"/>
+        </record>
+
+        <!-- Medicament form -->
+        <record id="medical_drug_form" model="ir.ui.view">
+            <field name="name">Medicament Form</field>
+            <field name="model">medical.drug.form</field>
+            <field name="arch" type="xml">
+                <form string="Medicament Form">
+                    <group col="4" colspan="4">
+                        <field name="name"/>
+                        <field name="code"/>
+                    </group>
+                </form></field>
+        </record>
+
+        <record id="medical_drug_form_tree" model="ir.ui.view">
+            <field name="name">Medicament Form list</field>
+            <field name="model">medical.drug.form</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Medicament Form">
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree></field>
+        </record>
+
+        <record id="view_medical_drug_form_search" model="ir.ui.view">
+            <field name="name">medical.drug.form.select</field>
+            <field name="model">medical.drug.form</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Medicament Presentation">
+                    <separator orientation="vertical"/>
+                    <field name="name" select="1"/>
+                    <field name="code" select="1"/>
+                    <newline/>
+                </search></field>
+        </record>
+
+        <record id="view_medical_drug_form_action" model="ir.actions.act_window">
+            <field name="name">Medicament Form</field>
+<!--            <field name="type">ir.actions.act_window</field>-->
+            <field name="res_model">medical.drug.form</field>
+            <!--<field name="view_type">form</field>-->
+            <field name="view_id" ref="medical_drug_form_tree"/>
+        </record>
+        <!-- Medicament dosage units -->
+        <record id="medical_dose_view" model="ir.ui.view">
+            <field name="name">Medicament Units</field>
+            <field name="model">medical.dose.unit</field>
+            <field name="arch" type="xml">
+                <form string="Medicament Units">
+                    <group col="4" colspan="4">
+                        <field name="name" required="1"/>
+                        <field name="desc"/>
+                    </group>
+                </form></field>
+        </record>
+        <record id="medical_dose_tree" model="ir.ui.view">
+            <field name="name">Medicament Units list</field>
+            <field name="model">medical.dose.unit</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Medicament Units">
+                    <field name="name"/>
+                    <field name="desc"/>
+                </tree></field>
+        </record>
+        <record id="medical_action_dose" model="ir.actions.act_window">
+            <field name="name">Medicament Dose Units</field>
+<!--            <field name="type">ir.actions.act_window</field>-->
+            <field name="res_model">medical.dose.unit</field>
+            <!--<field name="view_type">form</field>-->
+            <field name="view_id" ref="medical_dose_tree"/>
+        </record>
+        <record id="view_medical_medicament_dose_units" model="ir.ui.view">
+            <field name="name">medical.dose.select</field>
+            <field name="model">medical.dose.unit</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Medicament Dose Units">
+                    <separator orientation="vertical"/>
+                    <field name="name" select="1"/>
+                    <field name="desc" select="1"/>
+                    <newline/>
+                </search></field>
+        </record>
+        <record id="product_category_action_form_treatment" model="ir.actions.act_window">
+            <field name="name">Service Categories</field>
+<!--            <field name="type">ir.actions.act_window</field>-->
+            <field name="res_model">product.category</field>
+            <!--<field name="view_type">form</field>-->
+            <field name="context">{"default_treatment":1,"search_default_treatment":1}</field>
+<!--            <field name="domain">[('treatment','=',1),('company_id','!=',1)]</field>-->
+            <field name="search_view_id" ref="product.product_category_search_view"/>
+            <field name="view_id" ref="product.product_category_list_view"/>
+        </record>
+
+<!--       <record id="patient_complaint_form_view" model="ir.ui.view">-->
+<!--            <field name="name">Patient Complaint</field>-->
+<!--            <field name="model">patient.complaint</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <form string="Alert" version="7.0">-->
+<!--                    <group>-->
+<!--                        <field name="patient_id"/>-->
+<!--                        <field name="complaint_subject"/>-->
+<!--                        <field name="complaint_date"/>-->
+<!--                        <field name="complaint"/>-->
+<!--                        <field name="action_ta"/>-->
+<!--                    </group>-->
+<!--                </form></field>-->
+<!--        </record>-->
+<!--        <record id="patient_complaint_tree_view" model="ir.ui.view">-->
+<!--            <field name="name">Patient Complaints</field>-->
+<!--            <field name="model">patient.complaint</field>-->
+<!--            <field name="type">tree</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <tree string="Patient Complaints">-->
+<!--                    <field name="patient_id"/>-->
+<!--                    <field name="complaint_subject"/>-->
+<!--                    <field name="complaint_date"/>-->
+<!--                    <field name="complaint"/>-->
+<!--                    <field name="action_ta"/>-->
+<!--                </tree></field>-->
+<!--        </record>-->
+<!--        <record id="action_patient_complaint" model="ir.actions.act_window">-->
+<!--            <field name="name">Patient Complaint</field>-->
+<!--&lt;!&ndash;            <field name="type">ir.actions.act_window</field>&ndash;&gt;-->
+<!--            <field name="res_model">patient.complaint</field>-->
+<!--            &lt;!&ndash;<field name="view_type">form</field>&ndash;&gt;-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--            <field name="view_id" ref="patient_complaint_tree_view"/>-->
+<!--        </record>-->
+    </data>
+</odoo>

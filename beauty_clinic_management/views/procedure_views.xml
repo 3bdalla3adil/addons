@@ -1,0 +1,56 @@
+<odoo>
+
+     <record model="ir.ui.view" id="medical_procedure_view">
+         <field name="name">Medical Procedure</field>
+         <field name="model">medical.procedure</field>
+         <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                            <group col="4" colspan="4" string="MAIN INFO">
+                                <field name="name" required="1"/>
+                                     <!--<newline/>-->
+                                <field name="description"/>
+                            </group>
+                    </sheet>
+                </form>
+         </field>
+     </record>
+
+        <record model="ir.ui.view" id="medical_procedure_tree">
+            <field name="name">Medical Procedures</field>
+            <field name="model">medical.procedure</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string='Procedure'>
+                    <field name="name"/>
+                    <field name="description"/>
+<!--                    <field name="patient_id"/>-->
+<!--                    <field name="treatment_line_id"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_medical_procedure_filter" model="ir.ui.view">
+            <field name="name">medical.procedure.select</field>
+            <field name="model">medical.procedure</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Medical Procedures">
+                    <separator orientation="vertical"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="medical_procedure_action_tree">
+            <field name="name">Procedures</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">medical.procedure</field>
+            <!--<field name="view_type">form</field>-->
+            <field name="view_id" ref="medical_procedure_tree"/>
+        </record>
+
+
+
+</odoo>

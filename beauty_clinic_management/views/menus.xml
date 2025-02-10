@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <menuitem id="medical_menu" name="Beauty Management"/>
+    <menuitem id="medical_conf_menu" name="Configuration" parent="medical_menu" sequence="12"/>
+    <menuitem id="medical_appointment_menu" name="Appointments" parent="medical_menu" sequence="1"/>
+    <menuitem id="medical_patients_menu" name="Patients" parent="medical_menu" sequence="2"/>
+<!--    <menuitem action="medical_patient_action_tree" id="medical_patients_menu" name="Patients" parent="medical_menu" sequence="2"/>-->
+    <menuitem id="medical_prescription_menu" name="Prescriptions" active="1" parent="medical_menu" sequence="3"/>
+    <menuitem id="medical_conf_procedure" name="Procedures" parent="medical_conf_menu" sequence="4"/>
+    <menuitem id="medical_conf_hospital" name="Beauty Clinic Centers" parent="medical_conf_menu" active="0" sequence="5"/>
+    <menuitem id="dental_report_menu" name="Reports" parent="medical_menu" active="0" sequence="6"/>
+    <menuitem id="medical_conf_clinics" name="Clinics" parent="medical_conf_menu" sequence="7"/>
+    <menuitem id="medical_conf_medicaments" name="Medicaments" parent="medical_conf_menu" active="1" sequence="8"/>
+    <menuitem id="medical_conf_insurances" name="Insurances" parent="medical_conf_menu" active="0" sequence="9"/>
+
+
+    <!-- <menuitem name="Planned Visit Alerts" id="planned_visit_alert_menu" parent="medical_menu" sequence="5"/> -->
+    <!-- <menuitem name="Patient Complaints" id="patient_complaint_menu" parent="medical_menu" sequence="3"/> -->
+    <!-- <menuitem id="medical_patient_birthday_menu" name="Alerts" parent="medical_menu" sequence="4"/>-->
+    <menuitem action="medical_action_tree_medicament" id="medical_edit_medicament" parent="medical_conf_medicaments" sequence="2"/>
+    <menuitem action="claim_mgmt_insurance_view" id="claim_form_mgmt" parent="dental_report_menu" sequence="6"/>
+    <menuitem action="action_partner_health_insurance_company" id="menu_health_insurance_company_form" parent="medical_conf_insurances" sequence="0"/>
+    <menuitem action="medical_action_speciality" id="medical_conf_speciality" parent="medical_conf_clinics" active="0"/>
+    <menuitem action="medical_action_occupation" id="medical_conf_occupation" parent="medical_conf_clinics" active="0"/>
+    <menuitem action="medical_action_form_clinic" id="medical_conf_clinic_list" parent="medical_conf_clinics"/>
+    <menuitem action="medical_action_tree_family_code" id="medical_conf_edit_family_code" parent="medical_patients_menu" active="1" sequence="1"/>
+    <menuitem action="action_partner_health_center" id="menu_health_center_form" parent="medical_conf_hospital" sequence="0"/>
+    <menuitem action="medical_action_form_hospital_building" id="medical_conf_hospital_building_add" parent="medical_conf_hospital" sequence="1"/>
+    <menuitem action="medical_action_form_hospital_unit" id="medical_conf_hospital_unit_add" parent="medical_conf_hospital" sequence="2"/>
+    <menuitem action="product_treatment_action" id="menu_product_treatment_action" parent="medical_conf_procedure"/>
+    <menuitem action="appoinment_duration_action" id="menu_appoinment_duration_action" parent="medical_conf_clinics" active="0" />
+    <menuitem action="view_medical_medicine_prag_action" id="menu_medical_medicine_prag" parent="medical_conf_medicaments" sequence="1"/>
+    <menuitem action="view_medical_medication_dosage_action" id="menu_medical_medication_dosage_action" parent="medical_conf_medicaments" />
+    <menuitem action="view_medical_drug_route_action" id="menu_medical_drug_route" parent="medical_conf_medicaments"/>
+    <menuitem action="view_medical_drug_form_action" id="menu_medical_drug_form_action_id" parent="medical_conf_medicaments"/>
+    <menuitem action="medical_action_dose" id="medical_conf_dose" parent="medical_conf_medicaments"/>
+    <menuitem action="product_category_action_form_treatment" id="menu_product_category_action_form_treatment" parent="medical_conf_procedure" sequence="2"/>
+<!--    <menuitem action="action_patient_complaint" id="patient_complaint_submenu" name="Patient Complaints" active="0" parent="medical_patients_menu" sequence="4"/>-->
+    <menuitem action="medical_action_insurance" id="patient_insurance_submenu" name="Insurance" active="0" parent="medical_patients_menu" sequence="5"/>
+    <menuitem action="medical_action_insurance" id="medical_conf_edit_insurance" parent="medical_conf_insurances" sequence="1"/>
+    <menuitem action="medical_action_insurance" id="menu_insurance_policy_action" name="Insurance Payment Policy" parent="medical_conf_insurances"/>
+    <menuitem action="medical_action_form_appointment" id="medical_conf_appointment_add" parent="medical_appointment_menu" sequence="2"/>
+    <menuitem action="medical_action_form_today_appointment" id="medical_conf_appointment_add_today" parent="medical_appointment_menu"  sequence="1"/>
+    <menuitem action="medical_clinic_action_tree" parent="beauty_clinic_management.medical_menu" id="medical_edit_clinic" sequence="3"/>
+    <menuitem action="medical_equipment_action_tree" parent="beauty_clinic_management.medical_menu" id="medical_edit_equipment" sequence="5"/>
+    <menuitem action="financial_agreement_action" id="financial_agreement_menu" parent="medical_patients_menu" active="0" sequence="3"/>
+    <menuitem action="medical_patient_action_tree" parent="beauty_clinic_management.medical_patients_menu" id="medical_edit_patient" sequence="1"/>
+    <menuitem action="medical_action_prescription" id="menu_medical_action_prescription" active="1" parent="medical_prescription_menu"/>
+    <menuitem action="action_medical_treatment_order" id="menu_medical_treatment_order" parent="medical_conf_procedure"/>
+    <menuitem action="action_medical_treatment" id="menu_medical_treatment" parent="medical_conf_procedure"/>
+    <menuitem action="action_medical_treatment_type" id="menu_medical_treatment_type" parent="medical_conf_procedure"/>
+</odoo>

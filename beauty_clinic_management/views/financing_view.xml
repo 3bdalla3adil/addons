@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Financing Agreement Form View -->
+        <record id="financial_agreement_form" model="ir.ui.view">
+            <field name="name">Financing Agreement</field>
+            <field name="model">financing.agreement</field>
+            <field name="arch" type="xml">
+                <form string="Financing Agreement">
+                    <group>
+                        <field name="name"/>
+                        <field name="type_of_service"/>
+                    </group>
+                    <group col="4">
+                        <field name="date_of_service"/>
+                        <field name="total_amount_to_be_financed"/>
+                        <field name="date_to_be_paid"/>
+                    </group>
+                    <group>
+                        <field editable="bottom" name="payment_id" string="Payment Schedule"/>
+                    </group>
+                    <group>
+                        <field name="is_credit_card"/>
+                    </group>
+                    <group invisible="is_credit_card == False">
+                        <field name="payment_by_cash_check"/>
+                        <field name="payment_by_credit_card"/>
+                    </group>
+                    <newline/>
+                    <separator invisible="is_credit_card == False" string="Credit Card"/>
+                    <group col="6" colspan="4" invisible="is_credit_card == False">
+                        <field name="credit_card_type" width="20%"/>
+                        <field name="credit_card_number" nolabel="1" required="is_credit_card == True" width="40%"/>
+                        <field name="expiry_month" placeholder="mm" required="is_credit_card == True" string="Expiry Date" width="5%"/>
+                        <field name="expiry_year" nolabel="1" placeholder="yyyy" required="is_credit_card == True" width="5%"/>
+                    </group>
+                    <group>
+                        <field invisible="is_credit_card == False" name="name_as_appears_on_card" required="is_credit_card == True"/>
+                    </group>
+                </form></field>
+        </record>
+        <!--  Financing Agreement Tree View -->
+        <record id="financial_agreement_tree" model="ir.ui.view">
+            <field name="name">Financing Agreement</field>
+            <field name="model">financing.agreement</field>
+            <field name="arch" type="xml">
+                <tree string="Financing Agreement">
+                    <field name="name"/>
+                    <field name="type_of_service"/>
+                    <field name="date_of_service"/>
+                    <field name="total_amount_to_be_financed"/>
+                    <field name="date_to_be_paid"/>
+                    <field name="is_credit_card"/>
+                </tree></field>
+        </record>
+        <!-- Action for Financing Agreement -->
+        <record id="financial_agreement_action" model="ir.actions.act_window">
+            <field name="name">Financing Agreement</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">financing.agreement</field>
+            <field name="view_id" ref="financial_agreement_tree"/>
+        </record>
+        <!--  Main Menu for Financing Agreement -->
+
+        <!-- Menu for Financing Agreement -->
+        <!--  Payment Schedule Form View -->
+        <record id="payment_schedule_form" model="ir.ui.view">
+            <field name="name">Payment Schedule</field>
+            <field name="model">payment.schedule</field>
+            <field name="arch" type="xml">
+                <form string="Payment Schedule">
+                    <group>
+                        <field name="date"/>
+                        <field name="amount_to_be_paid"/>
+                    </group>
+                </form></field>
+        </record>
+        <!--  Payment Schedule Tree View -->
+        <record id="payment_schedule_tree" model="ir.ui.view">
+            <field name="name">Payment Schedule</field>
+            <field name="model">payment.schedule</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="Payment Schedule">
+                    <field name="date"/>
+                    <field name="amount_to_be_paid"/>
+                </tree></field>
+        </record>
+    </data>
+</odoo>
