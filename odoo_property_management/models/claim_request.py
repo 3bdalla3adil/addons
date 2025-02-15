@@ -154,8 +154,8 @@ class ClaimRequest(models.Model):
 
     description = fields.Text(string="Description", required=False, tracking=True, )
     group = fields.Selection([('a', 'A'), ('b', 'B'), ], string="Group",default='b', required=False, tracking=True, )
-    checked_by = fields.Many2one(comodel_name="hr.employee", compute='_set_check_by', string="Checked By",
-                                 required=False, tracking=True, )
+    checked_by = fields.Many2one(comodel_name="hr.employee",  string="Checked By", 
+                                 required=False, tracking=True, )#compute='_set_check_by',
     assigned_to = fields.Many2many(comodel_name="hr.employee", string="Assigned To", required=False, tracking=True, )
 
     remarks_of_works = fields.Char(string="Remarks Of Works", required=False, tracking=True, )
@@ -226,8 +226,8 @@ class ClaimRequest(models.Model):
             if rec.group == 'a':
                 rec.checked_by = employee_obj.search([('name', 'ilike', 'yassen')]).id
             else:
-                pass
-                #rec.checked_by = employee_obj.search([('name', 'ilike', 'Bassam')]).id
+                #pass
+                rec.checked_by = employee_obj.search([('name', '=', 'Bassam')]).id
 # ==============================COMMENTED FOR PRODUCTION==============================================
 #
 # class ClaimRequestManHours(models.Model):
