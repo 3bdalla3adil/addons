@@ -226,7 +226,8 @@ class ClaimRequest(models.Model):
             if rec.group == 'a':
                 rec.checked_by = employee_obj.search([('name', 'ilike', 'yassen')]).id
             else:
-                rec.checked_by = employee_obj.search([('name', 'ilike', 'Bassam')]).id
+                pass
+                #rec.checked_by = employee_obj.search([('name', 'ilike', 'Bassam')]).id
 # ==============================COMMENTED FOR PRODUCTION==============================================
 #
 # class ClaimRequestManHours(models.Model):
