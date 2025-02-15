@@ -219,15 +219,15 @@ class ClaimRequest(models.Model):
         for rec in self:
             rec.claim_dat = rec.claim_date.date()#.strftime('%d-%m-%Y')
 
-    @api.onchange('group')
-    def _set_check_by(self):
-        employee_obj = self.env['hr.employee']
-        for rec in self:
-            if rec.group == 'a':
-                rec.checked_by = employee_obj.search([('name', 'ilike', 'yassen')]).id
-            else:
+    #@api.onchange('group')
+    #def _set_check_by(self):
+    #    employee_obj = self.env['hr.employee']
+    #    for rec in self:
+    #        if rec.group == 'a':
+    #            rec.checked_by = employee_obj.search([('name', 'ilike', 'yassen')]).id
+    #        else:
                 #pass
-                rec.checked_by = employee_obj.search([('name', '=', 'Bassam')]).id
+                #rec.checked_by = employee_obj.search([('name', '=', 'Bassam')]).id
 # ==============================COMMENTED FOR PRODUCTION==============================================
 #
 # class ClaimRequestManHours(models.Model):
