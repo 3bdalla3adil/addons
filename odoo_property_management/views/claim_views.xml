@@ -45,7 +45,7 @@
                             <field name="priority" colors='{"3": "success", "2": "warning", "1": "danger", "0": "info"}'
                                    readonly="state in ['done']"/>
                             <field name="group" readonly="state in ['done']"/>
-                            <field name="checked_by"  readonly="state in ['done']"/>
+                            <field name="checked_by" readonly="state in ['done']"/>
 <!--                            <field name="claim_ids" string="Related Claims"/>-->
 <!--                            <field name="invoiced" invisible="1"/>-->
 <!--                            <field name="invoice_id" invisible="invoiced != 'True'"/>-->
