@@ -154,8 +154,8 @@ class ClaimRequest(models.Model):
 
     description = fields.Text(string="Description", required=False, tracking=True, )
     group = fields.Selection([('a', 'A'), ('b', 'B'), ], string="Group",default='b', required=False, tracking=True, )
-    checked_by = fields.Many2one(comodel_name="hr.employee",  string="Checked By", 
-                                 required=False, tracking=True, )#compute='_set_check_by',
+    checked_by = fields.Many2one(comodel_name="hr.employee",  string="Checked By", compute='_set_check_by',
+                                 required=False, tracking=True, store=True)#
     assigned_to = fields.Many2many(comodel_name="hr.employee", string="Assigned To", required=False, tracking=True, )
 
     remarks_of_works = fields.Char(string="Remarks Of Works", required=False, tracking=True, )
@@ -219,15 +219,15 @@ class ClaimRequest(models.Model):
         for rec in self:
             rec.claim_dat = rec.claim_date.date()#.strftime('%d-%m-%Y')
 
-    #@api.onchange('group')
-    #def _set_check_by(self):
-    #    employee_obj = self.env['hr.employee']
-    #    for rec in self:
-    #        if rec.group == 'a':
-    #            rec.checked_by = employee_obj.search([('name', 'ilike', 'yassen')]).id
-    #        else:
+    @api.onchange('group')
+    def _set_check_by(self):
+        employee_obj = self.env['hr.employee']
+        for rec in self:
+            if rec.group == 'a':
+                rec.checked_by = employee_obj.search([('name', 'ilike', 'yassen')]).id
+            else:
                 #pass
-                #rec.checked_by = employee_obj.search([('name', '=', 'Bassam')]).id
+                rec.checked_by = employee_obj.search([('name', '=', 'Bassam ABID')]).id
 # ==============================COMMENTED FOR PRODUCTION==============================================
 #
 # class ClaimRequestManHours(models.Model):
